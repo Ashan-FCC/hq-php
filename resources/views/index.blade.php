@@ -10,7 +10,7 @@
 <hr>
 <div class="container">
 
-		<form class="form-horizontal" method="post" action="http://localhost:8887/processpayment" id="Payment">
+		<form class="form-horizontal" method="post" id="Payment"  action="https://www.sandbox.paypal.com/cgi-bin/webscr" target="_top">
 		<h4 class = "col-xs-12"> Order</h4>
 		<div class="form-group text-left">		
 			<label for="amount" class="col-xs-2 control-label">Amount: </label>
@@ -68,12 +68,11 @@
     		<label for="creditCardCVV" class="col-xs-2 control-label">CVV: </label>
     		<div class="col-xs-2"><input type="password" name="creditCardCVV" class="form-control" placeholder="CVV" required></div>
 		</div>
-
-
-
+		<input type="hidden" name="cmd" value="_s-xclick">
+		<input type="hidden" name="hosted_button_id" value="BPANM4NFYF62G">
 	    <div class="form-group text-left">
 	    <div class="col-xs-offset-2 col-xs-10">
-	      <button type="submit" class="btn btn-default" id="submitPayment">Submit</button>
+	      <button type="submit" name="submit" class="btn btn-default" id="submitPayment">Submit</button>
 	    </div>
 	    </div>
 	    </form>

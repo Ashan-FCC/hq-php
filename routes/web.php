@@ -16,3 +16,5 @@ $app->get('/', function () use ($app) {
 });
 
 $app->post('/processpayment' , 'PaymentController@processpayment');
+
+$app->get('/v1/FirstCall' , 'PaymentController@firstcall');
