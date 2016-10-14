@@ -2,3 +2,92 @@
 [11-10-2016 02:13:58] PayPal\Core\PayPalHttpConnection : INFO: Response Status 	: 200
 [11-10-2016 02:13:58] PayPal\Core\PayPalHttpConnection : INFO: POST https://api.sandbox.paypal.com/v1/vault/credit-cards
 [11-10-2016 02:14:00] PayPal\Core\PayPalHttpConnection : INFO: Response Status 	: 201
+[12-10-2016 01:56:42] PayPal\Core\PayPalHttpConnection : INFO: POST https://api.sandbox.paypal.com/v1/oauth2/token
+[12-10-2016 01:56:44] PayPal\Core\PayPalHttpConnection : INFO: Response Status 	: 200
+[12-10-2016 01:56:44] PayPal\Core\PayPalHttpConnection : INFO: POST https://api.sandbox.paypal.com/v1/payments/payment
+[12-10-2016 01:56:56] PayPal\Core\PayPalHttpConnection : INFO: Response Status 	: 400
+[12-10-2016 01:56:56] PayPal\Core\PayPalHttpConnection : ERROR: Got Http response code 400 when accessing https://api.sandbox.paypal.com/v1/payments/payment. {"name":"PAYEE_ACCOUNT_NO_CONFIRMED_EMAIL","message":"Refused. Payee account does not have a confirmed email.","information_link":"https://developer.paypal.com/webapps/developer/docs/api/#PAYEE_ACCOUNT_NO_CONFIRMED_EMAIL","debug_id":"3b0c6051997c1"}
+[12-10-2016 02:41:32] PayPal\Core\PayPalHttpConnection : INFO: POST https://api.sandbox.paypal.com/v1/oauth2/token
+[12-10-2016 02:41:34] PayPal\Core\PayPalHttpConnection : INFO: Response Status 	: 200
+[12-10-2016 02:41:34] PayPal\Core\PayPalHttpConnection : INFO: POST https://api.sandbox.paypal.com/v1/payments/payment
+[12-10-2016 02:41:45] PayPal\Core\PayPalHttpConnection : INFO: Response Status 	: 400
+[12-10-2016 02:41:45] PayPal\Core\PayPalHttpConnection : ERROR: Got Http response code 400 when accessing https://api.sandbox.paypal.com/v1/payments/payment. {"name":"PAYEE_ACCOUNT_NO_CONFIRMED_EMAIL","message":"Refused. Payee account does not have a confirmed email.","information_link":"https://developer.paypal.com/webapps/developer/docs/api/#PAYEE_ACCOUNT_NO_CONFIRMED_EMAIL","debug_id":"164f219e6a132"}
+[12-10-2016 03:00:33] PayPal\Core\PayPalHttpConnection : INFO: POST https://api.sandbox.paypal.com/v1/oauth2/token
+[12-10-2016 03:00:35] PayPal\Core\PayPalHttpConnection : INFO: Response Status 	: 200
+[12-10-2016 03:00:35] PayPal\Core\PayPalHttpConnection : INFO: POST https://api.sandbox.paypal.com/v1/payments/payment
+[12-10-2016 03:00:47] PayPal\Core\PayPalHttpConnection : INFO: Response Status 	: 400
+[12-10-2016 03:00:47] PayPal\Core\PayPalHttpConnection : ERROR: Got Http response code 400 when accessing https://api.sandbox.paypal.com/v1/payments/payment. {"name":"PAYEE_ACCOUNT_NO_CONFIRMED_EMAIL","message":"Refused. Payee account does not have a confirmed email.","information_link":"https://developer.paypal.com/webapps/developer/docs/api/#PAYEE_ACCOUNT_NO_CONFIRMED_EMAIL","debug_id":"e582b30b50541"}
+[12-10-2016 03:02:46] PayPal\Core\PayPalHttpConnection : INFO: POST https://api.sandbox.paypal.com/v1/oauth2/token
+[12-10-2016 03:02:47] PayPal\Core\PayPalHttpConnection : INFO: Response Status 	: 200
+[12-10-2016 03:02:47] PayPal\Core\PayPalHttpConnection : INFO: POST https://api.sandbox.paypal.com/v1/payments/payment
+[12-10-2016 03:02:59] PayPal\Core\PayPalHttpConnection : INFO: Response Status 	: 400
+[12-10-2016 03:02:59] PayPal\Core\PayPalHttpConnection : ERROR: Got Http response code 400 when accessing https://api.sandbox.paypal.com/v1/payments/payment. {"name":"PAYEE_ACCOUNT_NO_CONFIRMED_EMAIL","message":"Refused. Payee account does not have a confirmed email.","information_link":"https://developer.paypal.com/webapps/developer/docs/api/#PAYEE_ACCOUNT_NO_CONFIRMED_EMAIL","debug_id":"191274115dd7e"}
+[12-10-2016 04:53:40] PayPal\Core\PayPalHttpConnection : INFO: POST https://api.sandbox.paypal.com/v1/oauth2/token
+[12-10-2016 04:53:47] PayPal\Core\PayPalHttpConnection : INFO: Response Status 	: 200
+[12-10-2016 04:53:47] PayPal\Core\PayPalHttpConnection : INFO: POST https://api.sandbox.paypal.com/v1/payments/payment
+[12-10-2016 04:54:02] PayPal\Core\PayPalHttpConnection : INFO: Response Status 	: 400
+[12-10-2016 04:54:02] PayPal\Core\PayPalHttpConnection : ERROR: Got Http response code 400 when accessing https://api.sandbox.paypal.com/v1/payments/payment. {"name":"PAYEE_ACCOUNT_NO_CONFIRMED_EMAIL","message":"Refused. Payee account does not have a confirmed email.","information_link":"https://developer.paypal.com/webapps/developer/docs/api/#PAYEE_ACCOUNT_NO_CONFIRMED_EMAIL","debug_id":"1223496a62a55"}
+[12-10-2016 05:02:12] PayPal\Core\PayPalHttpConnection : INFO: POST https://api.sandbox.paypal.com/v1/oauth2/token
+[12-10-2016 05:02:14] PayPal\Core\PayPalHttpConnection : INFO: Response Status 	: 200
+[12-10-2016 05:02:14] PayPal\Core\PayPalHttpConnection : INFO: POST https://api.sandbox.paypal.com/v1/payments/payment
+[12-10-2016 05:02:34] PayPal\Core\PayPalHttpConnection : INFO: Response Status 	: 400
+[12-10-2016 05:02:34] PayPal\Core\PayPalHttpConnection : ERROR: Got Http response code 400 when accessing https://api.sandbox.paypal.com/v1/payments/payment. {"name":"PAYEE_ACCOUNT_NO_CONFIRMED_EMAIL","message":"Refused. Payee account does not have a confirmed email.","information_link":"https://developer.paypal.com/webapps/developer/docs/api/#PAYEE_ACCOUNT_NO_CONFIRMED_EMAIL","debug_id":"35a4bdfdbc89"}
+[12-10-2016 05:31:47] PayPal\Core\PayPalHttpConnection : INFO: POST https://api.sandbox.paypal.com/v1/oauth2/token
+[12-10-2016 05:31:53] PayPal\Core\PayPalHttpConnection : INFO: Response Status 	: 200
+[12-10-2016 05:31:53] PayPal\Core\PayPalHttpConnection : INFO: POST https://api.sandbox.paypal.com/v1/payments/payment
+[12-10-2016 05:31:56] PayPal\Core\PayPalHttpConnection : INFO: Response Status 	: 400
+[12-10-2016 05:31:57] PayPal\Core\PayPalHttpConnection : ERROR: Got Http response code 400 when accessing https://api.sandbox.paypal.com/v1/payments/payment. {"name":"PAYEE_ACCOUNT_NO_CONFIRMED_EMAIL","message":"Refused. Payee account does not have a confirmed email.","information_link":"https://developer.paypal.com/webapps/developer/docs/api/#PAYEE_ACCOUNT_NO_CONFIRMED_EMAIL","debug_id":"fed91759d6ea5"}
+[12-10-2016 05:34:00] PayPal\Core\PayPalHttpConnection : INFO: POST https://api.sandbox.paypal.com/v1/oauth2/token
+[12-10-2016 05:34:02] PayPal\Core\PayPalHttpConnection : INFO: Response Status 	: 200
+[12-10-2016 05:34:02] PayPal\Core\PayPalHttpConnection : INFO: POST https://api.sandbox.paypal.com/v1/payments/payment
+[12-10-2016 05:34:05] PayPal\Core\PayPalHttpConnection : INFO: Response Status 	: 400
+[12-10-2016 05:34:05] PayPal\Core\PayPalHttpConnection : ERROR: Got Http response code 400 when accessing https://api.sandbox.paypal.com/v1/payments/payment. {"name":"PAYEE_ACCOUNT_NO_CONFIRMED_EMAIL","message":"Refused. Payee account does not have a confirmed email.","information_link":"https://developer.paypal.com/webapps/developer/docs/api/#PAYEE_ACCOUNT_NO_CONFIRMED_EMAIL","debug_id":"127c1d38d471a"}
+[12-10-2016 06:50:10] PayPal\Core\PayPalHttpConnection : INFO: POST https://api.sandbox.paypal.com/v1/oauth2/token
+[12-10-2016 06:50:12] PayPal\Core\PayPalHttpConnection : INFO: Response Status 	: 200
+[12-10-2016 06:50:12] PayPal\Core\PayPalHttpConnection : INFO: POST https://api.sandbox.paypal.com/v1/payments/payment
+[12-10-2016 06:50:14] PayPal\Core\PayPalHttpConnection : INFO: Response Status 	: 400
+[12-10-2016 06:50:14] PayPal\Core\PayPalHttpConnection : ERROR: Got Http response code 400 when accessing https://api.sandbox.paypal.com/v1/payments/payment. {"name":"PAYEE_ACCOUNT_NO_CONFIRMED_EMAIL","message":"Refused. Payee account does not have a confirmed email.","information_link":"https://developer.paypal.com/webapps/developer/docs/api/#PAYEE_ACCOUNT_NO_CONFIRMED_EMAIL","debug_id":"1c962ff846811"}
+[12-10-2016 06:59:18] PayPal\Core\PayPalHttpConnection : INFO: POST https://api.sandbox.paypal.com/v1/oauth2/token
+[12-10-2016 06:59:19] PayPal\Core\PayPalHttpConnection : INFO: Response Status 	: 200
+[12-10-2016 06:59:19] PayPal\Core\PayPalHttpConnection : INFO: POST https://api.sandbox.paypal.com/v1/vault/credit-cards
+[12-10-2016 06:59:20] PayPal\Core\PayPalHttpConnection : INFO: Response Status 	: 201
+[13-10-2016 01:04:26] PayPal\Core\PayPalHttpConnection : INFO: POST https://api.sandbox.paypal.com/v1/oauth2/token
+[13-10-2016 01:04:30] PayPal\Core\PayPalHttpConnection : INFO: Response Status 	: 200
+[13-10-2016 01:04:30] PayPal\Core\PayPalHttpConnection : INFO: POST https://api.sandbox.paypal.com/v1/vault/credit-cards
+[13-10-2016 01:04:32] PayPal\Core\PayPalHttpConnection : INFO: Response Status 	: 201
+[13-10-2016 01:05:56] PayPal\Core\PayPalHttpConnection : INFO: POST https://api.sandbox.paypal.com/v1/oauth2/token
+[13-10-2016 01:05:57] PayPal\Core\PayPalHttpConnection : INFO: Response Status 	: 200
+[13-10-2016 01:05:57] PayPal\Core\PayPalHttpConnection : INFO: POST https://api.sandbox.paypal.com/v1/vault/credit-cards
+[13-10-2016 01:05:58] PayPal\Core\PayPalHttpConnection : INFO: Response Status 	: 201
+[13-10-2016 01:08:44] PayPal\Core\PayPalHttpConnection : INFO: POST https://api.sandbox.paypal.com/v1/oauth2/token
+[13-10-2016 01:08:46] PayPal\Core\PayPalHttpConnection : INFO: Response Status 	: 200
+[13-10-2016 01:08:46] PayPal\Core\PayPalHttpConnection : INFO: POST https://api.sandbox.paypal.com/v1/vault/credit-cards
+[13-10-2016 01:08:49] PayPal\Core\PayPalHttpConnection : INFO: Response Status 	: 201
+[13-10-2016 01:11:28] PayPal\Core\PayPalHttpConnection : INFO: POST https://api.sandbox.paypal.com/v1/oauth2/token
+[13-10-2016 01:11:30] PayPal\Core\PayPalHttpConnection : INFO: Response Status 	: 200
+[13-10-2016 01:11:30] PayPal\Core\PayPalHttpConnection : INFO: POST https://api.sandbox.paypal.com/v1/vault/credit-cards
+[13-10-2016 01:11:31] PayPal\Core\PayPalHttpConnection : INFO: Response Status 	: 201
+[13-10-2016 01:11:31] PayPal\Core\PayPalHttpConnection : INFO: POST https://api.sandbox.paypal.com/v1/payments/payment
+[13-10-2016 01:11:33] PayPal\Core\PayPalHttpConnection : INFO: Response Status 	: 400
+[13-10-2016 01:11:33] PayPal\Core\PayPalHttpConnection : ERROR: Got Http response code 400 when accessing https://api.sandbox.paypal.com/v1/payments/payment. {"name":"VALIDATION_ERROR","details":[{"field":"payer.funding_instruments[0].credit_card.number","issue":"Value is invalid."},{"field":"payer.funding_instruments[0].credit_card.number","issue":"Value must be numeric."},{"field":"payer.funding_instruments[0].credit_card.update_time","issue":"Field name is not defined for this resource type."},{"field":"payer.funding_instruments[0].credit_card.create_time","issue":"Field name is not defined for this resource type."}],"message":"Invalid request. See details.","information_link":"https://developer.paypal.com/webapps/developer/docs/api/#VALIDATION_ERROR","debug_id":"8e5a370d6d58"}
+[13-10-2016 01:14:50] PayPal\Core\PayPalHttpConnection : INFO: POST https://api.sandbox.paypal.com/v1/oauth2/token
+[13-10-2016 01:14:51] PayPal\Core\PayPalHttpConnection : INFO: Response Status 	: 200
+[13-10-2016 01:14:51] PayPal\Core\PayPalHttpConnection : INFO: POST https://api.sandbox.paypal.com/v1/vault/credit-cards
+[13-10-2016 01:14:53] PayPal\Core\PayPalHttpConnection : INFO: Response Status 	: 201
+[13-10-2016 01:14:53] PayPal\Core\PayPalHttpConnection : INFO: POST https://api.sandbox.paypal.com/v1/payments/payment
+[13-10-2016 01:14:54] PayPal\Core\PayPalHttpConnection : INFO: Response Status 	: 400
+[13-10-2016 01:14:54] PayPal\Core\PayPalHttpConnection : ERROR: Got Http response code 400 when accessing https://api.sandbox.paypal.com/v1/payments/payment. {"name":"VALIDATION_ERROR","details":[{"field":"payer.funding_instruments[0].credit_card.number","issue":"Value must be numeric."},{"field":"payer.funding_instruments[0].credit_card.update_time","issue":"Field name is not defined for this resource type."},{"field":"payer.funding_instruments[0].credit_card.create_time","issue":"Field name is not defined for this resource type."},{"field":"payer.funding_instruments[0].credit_card.number","issue":"Value is invalid."}],"message":"Invalid request. See details.","information_link":"https://developer.paypal.com/webapps/developer/docs/api/#VALIDATION_ERROR","debug_id":"944424a656ecf"}
+[13-10-2016 01:17:25] PayPal\Core\PayPalHttpConnection : INFO: POST https://api.sandbox.paypal.com/v1/oauth2/token
+[13-10-2016 01:17:27] PayPal\Core\PayPalHttpConnection : INFO: Response Status 	: 200
+[13-10-2016 01:17:27] PayPal\Core\PayPalHttpConnection : INFO: POST https://api.sandbox.paypal.com/v1/vault/credit-cards
+[13-10-2016 01:17:29] PayPal\Core\PayPalHttpConnection : INFO: Response Status 	: 201
+[13-10-2016 01:17:29] PayPal\Core\PayPalHttpConnection : INFO: POST https://api.sandbox.paypal.com/v1/payments/payment
+[13-10-2016 01:17:31] PayPal\Core\PayPalHttpConnection : INFO: Response Status 	: 400
+[13-10-2016 01:17:31] PayPal\Core\PayPalHttpConnection : ERROR: Got Http response code 400 when accessing https://api.sandbox.paypal.com/v1/payments/payment. {"name":"VALIDATION_ERROR","details":[{"field":"payer.funding_instruments[0].credit_card.number","issue":"Value must be numeric."},{"field":"payer.funding_instruments[0].credit_card.update_time","issue":"Field name is not defined for this resource type."},{"field":"payer.funding_instruments[0].credit_card.create_time","issue":"Field name is not defined for this resource type."},{"field":"payer.funding_instruments[0].credit_card.number","issue":"Value is invalid."}],"message":"Invalid request. See details.","information_link":"https://developer.paypal.com/webapps/developer/docs/api/#VALIDATION_ERROR","debug_id":"cda35780e2980"}
+[13-10-2016 01:27:10] PayPal\Core\PayPalHttpConnection : INFO: POST https://api.sandbox.paypal.com/v1/oauth2/token
+[13-10-2016 01:27:11] PayPal\Core\PayPalHttpConnection : INFO: Response Status 	: 200
+[13-10-2016 01:27:11] PayPal\Core\PayPalHttpConnection : INFO: POST https://api.sandbox.paypal.com/v1/vault/credit-cards
+[13-10-2016 01:27:13] PayPal\Core\PayPalHttpConnection : INFO: Response Status 	: 201
+[13-10-2016 01:27:13] PayPal\Core\PayPalHttpConnection : INFO: POST https://api.sandbox.paypal.com/v1/payments/payment
+[13-10-2016 01:27:14] PayPal\Core\PayPalHttpConnection : INFO: Response Status 	: 400
+[13-10-2016 01:27:14] PayPal\Core\PayPalHttpConnection : ERROR: Got Http response code 400 when accessing https://api.sandbox.paypal.com/v1/payments/payment. {"name":"VALIDATION_ERROR","details":[{"field":"payer.funding_instruments[0].credit_card.number","issue":"Value is invalid."},{"field":"payer.funding_instruments[0].credit_card.update_time","issue":"Field name is not defined for this resource type."},{"field":"payer.funding_instruments[0].credit_card.create_time","issue":"Field name is not defined for this resource type."},{"field":"payer.funding_instruments[0].credit_card.number","issue":"Value must be numeric."}],"message":"Invalid request. See details.","information_link":"https://developer.paypal.com/webapps/developer/docs/api/#VALIDATION_ERROR","debug_id":"514cd14162056"}

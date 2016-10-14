@@ -4,9 +4,56 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "015f12ef9c855fbc8a676f682e726d5c",
-    "content-hash": "c3b760c80e5496eeaf2ab64c15ab4fde",
+    "hash": "ad4d820344a81d03d855f552d0c8a2f1",
+    "content-hash": "1a6584eadf13fc6c5e86f3e0356aac31",
     "packages": [
+        {
+            "name": "braintree/braintree_php",
+            "version": "3.16.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/braintree/braintree_php.git",
+                "reference": "d6ce80f7f54abe9972d577173343d1975bc49e77"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/braintree/braintree_php/zipball/d6ce80f7f54abe9972d577173343d1975bc49e77",
+                "reference": "d6ce80f7f54abe9972d577173343d1975bc49e77",
+                "shasum": ""
+            },
+            "require": {
+                "ext-curl": "*",
+                "ext-dom": "*",
+                "ext-hash": "*",
+                "ext-openssl": "*",
+                "ext-xmlwriter": "*",
+                "php": ">=5.4.0"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "3.7.*"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-0": {
+                    "Braintree": "lib/"
+                },
+                "psr-4": {
+                    "Braintree\\": "lib/Braintree"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Braintree",
+                    "homepage": "http://www.braintreepayments.com"
+                }
+            ],
+            "description": "Braintree PHP Client Library",
+            "time": "2016-08-30 20:34:36"
+        },
         {
             "name": "doctrine/inflector",
             "version": "v1.1.0",
