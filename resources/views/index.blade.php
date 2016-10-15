@@ -68,17 +68,24 @@
     		<label for="creditCardCVV" class="col-xs-2 control-label">CVV: </label>
     		<div class="col-xs-2"><input type="password" name="creditCardCVV" class="form-control" placeholder="CVV" required></div>
 		</div>
-		<input type="hidden" name="cmd" value="_s-xclick">
-		<input type="hidden" name="hosted_button_id" value="BPANM4NFYF62G">
+	    </form>
 	    <div class="form-group text-left">
 	    <div class="col-xs-offset-2 col-xs-10">
-	      <button type="submit" name="submit" class="btn btn-default" id="submitPayment">Submit</button>
+	      <button class="btn btn-default" id="submitPayment">Pay</button>
 	    </div>
 	    </div>
-	    </form>
+
 </div>
 
 
 	<script src='http://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js'></script>
+	<script>
+		$(document).ready(function(){
+			$("#submitPayment").on('click', function(){
+				console.log("Submit Clicked. Submitting Form");
+				$("#Payment").submit();
+			});
+		});
+	</script>
 </body>
 </html>
