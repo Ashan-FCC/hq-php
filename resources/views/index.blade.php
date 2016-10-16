@@ -15,7 +15,7 @@
 		<div class="form-group text-left">		
 			<label for="amount" class="col-xs-2 control-label">Amount: </label>
 			<div class="col-xs-2"><input type="text" class="form-control" name="amount" id="Amount" required></div>
-			<span class="col-xs-8 text-danger" id="Amount-Error">Amount-Error</span>
+			<span class="col-xs-8 text-danger" id="Amount-Error"></span>
 		</div>
 		<div class="form-group">
 			<label for="currency" class="col-xs-2 control-label">Currency: </label>
@@ -46,23 +46,42 @@
 				<div class="col-xs-6">
 					<input type="text" class="form-control" name="customerName" id="FullName" required>
 				</div>
-			<div class="col-xs-4 text-danger" id="Name-Error">Name-Error</div>
+			<div class="col-xs-4 text-danger" id="Name-Error"></div>
 		</div>
 
 		<hr>
 
 		<h4>Credit Card Information</h4>
 		<div class="form-group text-left">
+			<label for="cardType" class="col-xs-2 control-label">Card Type: </label>
+			<div class="col-xs-10">        		
+	        	<label class="radio-inline">
+	            <input type="radio" value="visa" name="creditCardType" required checked="checked"> Visa
+	        	</label>
+	        	<label class="radio-inline">
+	            <input type="radio" value="mastercard" name="creditCardType" required> Mastercard
+	        	</label>
+	        	<label class="radio-inline">
+	            <input type="radio" value="amex" name="creditCardType" required> American Express
+	        	</label>
+	        	<label class="radio-inline">
+	            <input type="radio" value="discover" name="creditCardType" required> Discover
+	        	</label class="radio-inline">
+	        </div>
+    	</div>
+		<div class="form-group text-left">
 			<label for="nameOnCard" class="col-xs-2 control-label">Name on Card: </label>
-			<div class="col-xs-2"><input type="text" class="form-control" name="nameOnCard" placeholder="Name on Card" required></div>
+			<div class="col-xs-4"><input type="text" class="form-control" name="nameOnCard" placeholder="Name on Card" required></div>
     	</div>
     	<div class="form-group text-left">
     		<label for="creditCardNumber" class="col-xs-2 control-label">Credit Card Number: </label>
-    		<div class="col-xs-2"><input type="text" name="cardNumber" class="form-control" placeholder="xxxxxxxxxxxxxxxx" required></div>
+    		<div class="col-xs-4"><input type="text" name="cardNumber" class="form-control" placeholder="xxxxxxxxxxxxxxxx" required></div>
 		</div>
 		<div class="form-group text-left">
-    		<label for="creditCardExpire" class="col-xs-2 control-label">Card Expire Date: </label>
-    		<div class="col-xs-2"><input type="text" name="creditCardExpire" class="form-control" placeholder="MM/YY" required></div>
+    		<label for="cardExpireMonth" class="col-xs-2 control-label">Card Expire Month: </label>
+    		<div class="col-xs-2"><input type="text" name="cardExpireMonth" class="form-control" placeholder="MM" required></div>
+    		<label for="cardExpireYear" class="col-xs-2 control-label">Card Expire Year: </label>
+    		<div class="col-xs-2"><input type="text" name="cardExpireYear" class="form-control" placeholder="YYYY" required></div>
 		</div>
 		<div class="form-group text-left">
     		<label for="creditCardCVV" class="col-xs-2 control-label">CVV: </label>

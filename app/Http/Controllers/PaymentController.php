@@ -5,10 +5,7 @@ use PayPal\Auth\OAuthTokenCredential;
 use PayPal\Rest\ApiContext;
 use PayPal\Exception\PayPalConnectionException;
 use PayPal\Api\Amount;
-<<<<<<< HEAD
-=======
 use PayPal\Api\CreditCard;
->>>>>>> 7da9d7a723c53fa00fa3f6fa1007887fa17ef37a
 use PayPal\Api\Details;
 use PayPal\Api\FundingInstrument;
 use PayPal\Api\Item;
@@ -16,10 +13,11 @@ use PayPal\Api\ItemList;
 use PayPal\Api\Payer;
 use PayPal\Api\Payment;
 use PayPal\Api\Transaction;
-<<<<<<< HEAD
-=======
-
->>>>>>> 7da9d7a723c53fa00fa3f6fa1007887fa17ef37a
+use App\Classes\Validators\DataValidator;
+use Braintree_Configuration;
+use Braintree_Transaction;
+use App\Classes\Card;
+use App\Classes\Gateways\PaymentHandler;
 
 class PaymentController extends Controller
 {
@@ -33,8 +31,54 @@ class PaymentController extends Controller
         //
     }
 
-    public function processpayment(Request $request){
-        return "Process Payment";
+    public function processCreditCardbt(Request $request){
+        $cardnumber = $request->input('cardNumber');
+        $cvv = $request->input('creditCardCVV');
+        $month = $request->input('cardExpireMonth');
+        $year = $request->input('cardExpireYear');
+        $holdername = $request->input('nameOnCard');
+        $cardtype = $request->input('creditCardType');
+
+        $Currency = $request->input('currency');
+        $Amount = $request->input('amount');
+
+        $Currency = $request->input('currency');
+        $Amount = $request->input('amount');
+
+        $card = new Card($cardnumber, $cardtype, $cvv, $holdername, $month, $year);
+        $transaction = new Transaction($Amount, $Currency);
+
+        $gateway = new Paypal();
+        $gateway = new Braintree();
+
+        $handler = new PaymentHandler();
+        $result = $handler->processCreditCard($gateway, $card, $transaction);
+
+    }
+
+    public function processCreditCard(Request $request){
+        //var_dump($request);
+        $cardnumber = $request->input('cardNumber');
+        $cvv = $request->input('creditCardCVV');
+        $month = $request->input('cardExpireMonth');
+        $year = $request->input('cardExpireYear');
+        $holdername = $request->input('nameOnCard');
+        $cardtype = $request->input('creditCardType');
+
+        $Currency = $request->input('currency');
+        $Amount = $request->input('amount');
+
+        $card = new Card($cardnumber, $cardtype, $cvv, $holdername, $month, $year);
+
+        // Find the payment channel.
+
+        // Validate the card data.
+
+        $validator = new DataValidator();
+
+       
+        return $result;
+
 
     }
 
@@ -51,7 +95,7 @@ class PaymentController extends Controller
                           )
                         );
 
-<<<<<<< HEAD
+
     $creditCard = new CreditCard();
     $creditCard->setType("visa")
                 ->setNumber("4032032531467923")
@@ -65,31 +109,17 @@ class PaymentController extends Controller
         $result = $creditCard->create($apiContext);
         }
         catch (PayPalConnectionException $ex) {
-        echo $ex->getData();
+        $result = $ex->getData();
         }
-        $this->testTransaction($apiContext , $result);
-=======
-    $card = new CreditCard();
-    $card->setType("via");
-    $card->setNumber("4032032531467923");
-    $card->setExpireMonth("11");
-    $card->setExpireYear("2021");
-    $card->setFirstName("Joe");
-    $card->setLastName("Shopper");
+        return $result;
+        //$this->testTransaction($apiContext , $result);
 
-    // try {
-    //     $creditCard->create($apiContext);
-    //     echo $creditCard;
-    //     }
-    //     catch (PayPalConnectionException $ex) {
-    //     echo $ex->getData();
 
-    //     }
 
-        $this->makePayment($apiContext, $card);
->>>>>>> 7da9d7a723c53fa00fa3f6fa1007887fa17ef37a
 
+        //$this->makePayment($apiContext, $card);
     }
+
     private function testTransaction($apiContext , $creditCard){
         $fi = new FundingInstrument();
         $fi->setCreditCard($creditCard);

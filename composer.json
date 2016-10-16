@@ -9,7 +9,8 @@
         "laravel/lumen-framework": "5.2.*",
         "vlucas/phpdotenv": "~2.2",
         "paypal/rest-api-sdk-php": "*",
-        "braintree/braintree_php" : "3.16.0"
+        "braintree/braintree_php" : "3.16.0",
+        "vluzrmos/tinker": "^1.1"
     },
     "require-dev": {
         "fzaninotto/faker": "~1.4",

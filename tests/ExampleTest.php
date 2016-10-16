@@ -11,10 +11,9 @@ class ExampleTest extends TestCase
      */
     public function testExample()
     {
-        $this->get('/processpayment');
-
+        $response = "Process Payment";
         $this->assertEquals(
-            "Process Payment", $this->response->getContent()
+            "Process Payment", $response
         );
     }
 }

@@ -15,6 +15,16 @@ $app->get('/', function () use ($app) {
     return view('index');
 });
 
-$app->get('/processpayment' , 'PaymentController@processpayment');
+$app->post('/v1/processcreditcard' , 'PaymentController@processCreditCard');
+$app->post('/v1/processcreditcardbt' , 'PaymentController@processCreditCardbt');
 
 $app->get('/v1/FirstCall' , 'PaymentController@firstcall');
+
+
+$app->get('/v1/gateways' , 'PaymentGatewayController@index');
+$app->get('/v1/currencies' , 'CurrencyController@index');
+$app->get('/v1/cardtypes' , 'CreditCardController@index');
+
+//AQvpue7fNEG5l7nzXL9ZzqN0FhExb6hZ9atuGh3ITQc29FjxSvv1VacTL4Cnl7ncsd6QCds6m3droPgg
+
+// secret - EN_1OMKrE-LGh8dEf5dRAYG-s2EgjqDOPua_Cm_JOAq_fcVljwoM0ywwDMNtpOWQsw0kuh5vDoeLQMwJ
