@@ -14,7 +14,7 @@ class BrainTreeIntegrationTest extends TestCase
         //$this->markTestSkipped('Takes too long. Comment out after refactoring');
         $this->json('POST', '/v1/processcreditcardbt', 
                 ['nameOnCard' => 'John Doe',
-                 'cardNumber' => '4032032531467923',
+                 'cardNumber' => '4111111111111111',
                  'creditCardCVV' => '012',
                  'creditCardType' => 'visa',
                  'cardExpireMonth' => '11',
@@ -22,8 +22,7 @@ class BrainTreeIntegrationTest extends TestCase
                  'amount' => '12',
                 'currency' => 'THB'])
              ->seeJson([
-                'success' => 'true',
-                'state' => 'approved'
+                'success' => true
              ]);
     }
 }
