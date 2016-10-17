@@ -1,23 +1,13 @@
 <?php
 namespace App\Http\Controllers;
 use Illuminate\Http\Request;
-use PayPal\Auth\OAuthTokenCredential;
-use PayPal\Rest\ApiContext;
-use PayPal\Exception\PayPalConnectionException;
-use PayPal\Api\Amount;
-use PayPal\Api\CreditCard;
-use PayPal\Api\Details;
-use PayPal\Api\FundingInstrument;
-use PayPal\Api\Item;
-use PayPal\Api\ItemList;
-use PayPal\Api\Payer;
-use PayPal\Api\Payment;
-use PayPal\Api\Transaction;
 use App\Classes\Validators\DataValidator;
-use Braintree_Configuration;
-use Braintree_Transaction;
+
 use App\Classes\Card;
 use App\Classes\Gateways\PaymentHandler;
+
+use App\Classes\Gateways\Braintree;
+use App\Classes\Gateways\Paypal;
 
 class PaymentController extends Controller
 {
@@ -46,13 +36,16 @@ class PaymentController extends Controller
         $Amount = $request->input('amount');
 
         $card = new Card($cardnumber, $cardtype, $cvv, $holdername, $month, $year);
-        $transaction = new Transaction($Amount, $Currency);
+        $transaction = new \App\Classes\Transaction($Amount, $Currency);
 
-        $gateway = new Paypal();
         $gateway = new Braintree();
 
         $handler = new PaymentHandler();
         $result = $handler->processCreditCard($gateway, $card, $transaction);
+        return $result;
+        return response($result)
+            ->withHeaders([
+                'Content-Type' => 'application/json']);
 
     }
 
@@ -68,17 +61,22 @@ class PaymentController extends Controller
         $Currency = $request->input('currency');
         $Amount = $request->input('amount');
 
+        //check restrictions
+
         $card = new Card($cardnumber, $cardtype, $cvv, $holdername, $month, $year);
+         $transaction = new \App\Classes\Transaction($Amount, $Currency);
+
 
         // Find the payment channel.
 
         // Validate the card data.
 
-        $validator = new DataValidator();
-
-       
+       // $validator = new DataValidator();
+        $gateway = new Paypal();
+        $handler = new PaymentHandler();
+        $result = $handler->processCreditCard($gateway, $card, $transaction);
+   
         return $result;
-
 
     }
 

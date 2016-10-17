@@ -6,5 +6,5 @@ use App\Classes\Card;
 
 interface Gateway {
 	public function name();
-	public function processcreditcard(Card $card, Transaction $transaction);
+	public function processCreditCard(Card $card, Transaction $transaction);
 }

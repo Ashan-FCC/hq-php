@@ -6,7 +6,8 @@ class Card {
 	public $cardnumber;
 	public $cardtype;
 	public $cvv;
-	public $holdername;
+	public $firstname;
+	public $lastname;
 	public $month;
 	public $year;
 
@@ -15,8 +16,8 @@ class Card {
 		$this->cardnumber = $cardnumber;
 		$this->cardtype = $cardtype;
 		$this->cvv = $cvv;
-		$this->firstname
-		$this->lastname 
+		$this->firstname = explode(" ", $holdername)[0];
+		$this->lastname =explode(" ", $holdername)[1];
 		$this->month = $month;
 		$this->year = $year;
 

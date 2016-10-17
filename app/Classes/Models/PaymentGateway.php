@@ -10,12 +10,10 @@ class PaymentGateway extends Model {
 protected $table ="PaymentGateways";
 
 	public function currencies(){
-
-		return $this->hasMany(Currency::class, 'id');
+	
+	  return $this->hasMany(Currency::class , 'gateway_id');
 
 	}
-
-
 }
 
 ?>

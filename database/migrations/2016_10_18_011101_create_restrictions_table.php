@@ -3,7 +3,7 @@
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateCurrencyTable extends Migration
+class CreateRestrictionsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -12,10 +12,10 @@ class CreateCurrencyTable extends Migration
      */
     public function up()
     {
-        Schema::create('Currency', function (Blueprint $table) {
+        Schema::create('Restrictions', function (Blueprint $table) {
             $table->increments('id');
+            $table->string('card_type');
             $table->string('currency_code');
-            $table->integer('gateway_id')->unsigned()->index();
             $table->timestamps();
         });
     }
@@ -27,6 +27,6 @@ class CreateCurrencyTable extends Migration
      */
     public function down()
     {
-        Schema::drop('Currency');
+        Schema::drop('Restrictions');
     }
 }

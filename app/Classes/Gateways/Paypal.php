@@ -2,6 +2,18 @@
 
 namespace App\Classes\Gateways;
 use App\Classes\Card;
+use PayPal\Auth\OAuthTokenCredential;
+use PayPal\Rest\ApiContext;
+use PayPal\Exception\PayPalConnectionException;
+use PayPal\Api\Amount;
+use PayPal\Api\CreditCard;
+use PayPal\Api\Details;
+use PayPal\Api\FundingInstrument;
+use PayPal\Api\Item;
+use PayPal\Api\ItemList;
+use PayPal\Api\Payer;
+use PayPal\Api\Payment;
+use PayPal\Api\Transaction;
 
 class Paypal implements Gateway {
 
@@ -9,7 +21,7 @@ class Paypal implements Gateway {
 		return 'Paypal';
 	}
 	
-	public function processCreditCard(Card $card , Transaction $transaction){
+	public function processCreditCard(Card $card , \App\Classes\Transaction $transaction){
 
 		$apiContext = new ApiContext(
                     new OAuthTokenCredential(env('Paypal_ClientID'),  env('Paypal_ClientSecret')));
@@ -23,20 +35,13 @@ class Paypal implements Gateway {
                           )
                         );
         $creditCard = new CreditCard();
-        $creditCard->setType($card->type)
+        $creditCard->setType($card->cardtype)
                 ->setNumber($card->cardnumber)
                 ->setExpireMonth($card->month)
                 ->setExpireYear($card->year)
                 ->setCvv2($card->cvv)
-                ->setFirstName($first)
-                ->setLastName($last);
-
-                	 = $cardnumber;
-		$this= $cardtype;
-		$this->cvv = $cvv;
-		$this->holdername = $holdername;
-		$this->month = $month;
-		$this->year = $year;
+                ->setFirstName($card->firstname)
+                ->setLastName($card->lastname);
 
         $fi = new FundingInstrument();
         $fi->setCreditCard($creditCard);
@@ -47,19 +52,19 @@ class Paypal implements Gateway {
 
 
         $amount = new Amount();
-        $amount->setCurrency($Currency)
-            ->setTotal($Amount);
+        $amount->setCurrency($transaction->currency)
+            ->setTotal($transaction->amount);
 
 
-        $transaction = new Transaction();
-        $transaction->setAmount($amount)
+        $tr = new Transaction();
+        $tr->setAmount($amount)
             ->setDescription("Payment description")
-            ->setInvoiceNumber(uniqid());
+            ->setInvoiceNumber($transaction->invoiceid);
 
         $payment = new Payment();
         $payment->setIntent("sale")
             ->setPayer($payer)
-            ->setTransactions(array($transaction));
+            ->setTransactions(array($tr));
            
         try {
            $result = $payment->create($apiContext);
@@ -70,6 +75,8 @@ class Paypal implements Gateway {
             echo $ex->getCode();
             $result = $ex->getData();
         }
+
+        return $result;
 	}
 
 }

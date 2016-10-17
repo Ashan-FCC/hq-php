@@ -2,6 +2,9 @@
 
 namespace App\Classes\Gateways;
 use App\Classes\Card;
+use App\Classes\Transaction;
+use Braintree_Configuration;
+use Braintree_Transaction;
 
 
 class Braintree implements Gateway {
@@ -10,8 +13,8 @@ class Braintree implements Gateway {
 		return 'Braintree';
 	}
 
-	public function processCreditCard(Card $card,Transaction $transaction){
-
+	public function processCreditCard(Card $card,Transaction $transaction)
+    {
         Braintree_Configuration::environment('sandbox');
         Braintree_Configuration::merchantId(env('braintree_merchant_id'));
         Braintree_Configuration::publicKey(env('braintree_public_key'));
@@ -28,7 +31,7 @@ class Braintree implements Gateway {
             'submitForSettlement' => True
             ]
         ]);
-        return $result;
+        return json_encode($result);
 	}
 	
 }

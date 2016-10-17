@@ -8,10 +8,11 @@ use App\Classes\Models\PaymentGateway;
 class Currency extends Model {
 
 protected $table ="Currency";
+protected $fillable = ['currency_code','gateway_id'];
 
-	public function paymentGateway(){
+	public function gateway(){
 
-		return $this->belongsTo(PaymentGateway::class , 'payment_gateway_id', 'id');
+		return $this->belongsTo(PaymentGateway::class, 'gateway_id', 'id');
 
 	}
 

@@ -1,7 +1,7 @@
 <?php
 
 namespace App\Classes\Gateways;
-use Gateway;
+use App\Classes\Gateways\Gateway;
 use App\Classes\Card;
 use App\Classes\Transaction;
 
@@ -17,6 +17,7 @@ class PaymentHandler {
 
 		// Do the payment
 		$result = $pgateway->processCreditCard($card, $transaction);
+		return $result;
 	}
 
 }
