@@ -16,7 +16,12 @@ class PaymentHandler {
 		// Save order to database
 
 		// Do the payment
-		$result = $pgateway->processCreditCard($card, $transaction);
+		try{
+			$result = $pgateway->processCreditCard($card, $transaction);
+		}catch(\Exception $ex){
+			return view('index',['errors'=>array( $ex->getMessage())]);
+		}
+
 		return $result;
 	}
 

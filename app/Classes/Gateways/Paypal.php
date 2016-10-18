@@ -35,6 +35,7 @@ class Paypal implements Gateway {
                           )
                         );
         $creditCard = new CreditCard();
+        $card = $card->getHolderName();
         $creditCard->setType($card->cardtype)
                 ->setNumber($card->cardnumber)
                 ->setExpireMonth($card->month)
@@ -68,16 +69,27 @@ class Paypal implements Gateway {
            
         try {
            $result = $payment->create($apiContext);
-           echo "<br>Payment Result";
-
         } catch (\PayPal\Exception\PayPalConnectionException $ex) {
-            echo $ex->getData();
-            echo $ex->getCode();
             $result = $ex->getData();
+            $errors = $this->getErrors($result);
+            return view('index',['errors'=>$errors]);
         }
 
-        return $result;
+        if($result->state === 'approved' && $result->intent==='sale'){
+             return view('index',['success'=>'Transaction completed using PayPal gateway.']);
+        }
+        
 	}
+
+    private function getErrors($result){
+        $errors = $result->details;
+        $result = array();
+        foreach($errors as $error){
+            array_push($result, $error->field . "\n" . $error->issue);
+        }
+        return $result;
+
+    }
 
 }
 

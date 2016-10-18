@@ -5,6 +5,9 @@ use App\Classes\Card;
 use App\Classes\Transaction;
 use Braintree_Configuration;
 use Braintree_Transaction;
+use Braintree\Result\Error;
+use Braintree\Result\Successful;
+use Exception;
 
 
 class Braintree implements Gateway {
@@ -20,6 +23,7 @@ class Braintree implements Gateway {
         Braintree_Configuration::publicKey(env('braintree_public_key'));
         Braintree_Configuration::privateKey(env('braintree_private_key'));
 
+
         $result = Braintree_Transaction::sale([
             'amount' => $transaction->amount,
             'merchantAccountId' => env('braintree_merchant_id_'.$transaction->currency),
@@ -28,10 +32,26 @@ class Braintree implements Gateway {
                              'expirationYear'=>$card->year,
                              'cvv'=>$card->cvv],
             'options' => [
-            'submitForSettlement' => True
+            'submitForSettlement' => True,
+
             ]
         ]);
-        return json_encode($result);
+        
+        if(!$result->success){
+            $errors = array();
+            foreach($result->errors->deepAll() AS $error) {
+            array_push($errors ,  $error->message);
+            }
+            return view('index',['errors'=>$errors]);
+           
+        }else{
+        $result = array('success'=> $result->success,
+                        'status'=>$result->transaction->status ,
+                        'type'=> $result->transaction->type);
+        }
+
+        //return array('success' => 'Transaction completed using BrainTree gateway.');
+        return view('index',['success'=>'Transaction completed using BrainTree gateway.']);
 	}
 	
 }
