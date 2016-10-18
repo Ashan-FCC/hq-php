@@ -4,6 +4,7 @@ use Laravel\Lumen\Testing\DatabaseTransactions;
 use App\Classes\Gateways\Paypal;
 use App\Classes\Gateways\Braintree;
 use App\Classes\Gateways\Gateway;
+use App\Classes\Models\Currency;
 
 class PaymentGatewayTest extends TestCase
 {
@@ -12,20 +13,30 @@ class PaymentGatewayTest extends TestCase
      *
      * @return void
      */
-    public function testGatewayInterfaceName()
+    public function testGatewayInterfaceNameforUSD()
     {
-        $pp = 'App\Classes\Gateways\Paypal';
-        $bt = 'App\Classes\Gateways\Braintree';
-
-        $paypal = new $pp();
-        $btclass = new $bt();
-
+        $path = "App\\Classes\\Gateways\\";
+        $channel = $this->getGatewayNamefromCurrency('USD');
+        $gateway = $path.$channel;
+        $paypal = new $gateway();
         $this->assertEquals('Paypal' , $this->getGatewayName($paypal));
-        $this->assertEquals('Braintree' , $this->getGatewayName($btclass));
-
     }
 
-    public function getGatewayName(Gateway $pg){
+    public function testGatewayInterfaceNameforTHB(){
+        $path = "App\\Classes\\Gateways\\";
+        $channel = $this->getGatewayNamefromCurrency('THB');
+        $gateway = $path.$channel;
+        $braintree = new $gateway();
+        $this->assertEquals('Braintree' , $this->getGatewayName($braintree));
+    }
+
+    private function getGatewayName(Gateway $pg){
         return $pg->name();
+    }
+    private function getGatewayNamefromCurrency($currency){
+        $c = Currency::where('currency_code',$currency)->first();
+        $gateway = $c->gateway;
+        $channel = $gateway->gateway_name;
+        return $channel;
     }
 }

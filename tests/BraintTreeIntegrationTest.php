@@ -11,8 +11,8 @@ class BrainTreeIntegrationTest extends TestCase
      */
     public function testBrainTreeSandboxPayment()
     {
-        //$this->markTestSkipped('Takes too long. Comment out after refactoring');
-        $this->json('POST', '/v1/processcreditcardbt', 
+        $this->markTestSkipped('Takes too long. Comment out after refactoring');
+        $this->json('POST', '/v1/processcreditcard', 
                 ['nameOnCard' => 'John Doe',
                  'cardNumber' => '4111111111111111',
                  'creditCardCVV' => '012',

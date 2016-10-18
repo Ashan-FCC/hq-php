@@ -11,7 +11,7 @@ class PaypalIntegrationTest extends TestCase
      */
     public function testPaypalSandboxPayment()
     {
-        //$this->markTestSkipped('Takes too long. Comment out after refactoring');
+        $this->markTestSkipped('Takes too long. Comment out after refactoring');
         $this->json('POST', '/v1/processcreditcard', 
                 ['nameOnCard' => 'John Doe',
                  'cardNumber' => '4032032531467923',
