@@ -5,16 +5,47 @@
 	<title>Test Payment</title>
 	<!-- Latest compiled and minified CSS -->
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+	<script src='http://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js'></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+	<style>
+		input[type="number"]::-webkit-outer-spin-button,
+		input[type="number"]::-webkit-inner-spin-button {
+						    	-webkit-appearance: none;
+						    	margin: 0;
+								}
+		input[type="number"] {
+							    -moz-appearance: textfield;
+							}
+	</style>
 </head>
 <body>
 <hr>
-<div class="container">
 
-		<form class="form-horizontal" method="post" id="Payment"  action="https://www.sandbox.paypal.com/cgi-bin/webscr" target="_top">
+<div class="container">
+		@if(isset($errors) && count($errors))
+			@foreach($errors as $error)
+				<div class="alert alert-danger fade in">
+				<a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+  				{{ $error }}
+				</div>
+			@endforeach
+				<div class="alert alert-danger fade in">
+				<a href="/" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+  				Transaction Failed. Close this to go back.
+				</div>
+
+		@endif
+		@if(!empty($success))
+				<div class="alert alert-success fade in">
+				<a href="/" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+  				{{ $success }} Close this for a new transaction.
+				</div>
+		@endif
+		<form class="form-horizontal" method="post" id="Payment"  action="http://localhost:8080/v1/processcreditcard" target="_top">
 		<h4 class = "col-xs-12"> Order</h4>
 		<div class="form-group text-left">		
 			<label for="amount" class="col-xs-2 control-label">Amount: </label>
-			<div class="col-xs-2"><input type="text" class="form-control" name="amount" id="Amount" required></div>
+			<div class="col-xs-2"><input type="number" min="0" step="0.01" class="form-control" name="amount" id="Amount" required"></div>
 			<span class="col-xs-8 text-danger" id="Amount-Error"></span>
 		</div>
 		<div class="form-group">
@@ -75,34 +106,31 @@
     	</div>
     	<div class="form-group text-left">
     		<label for="creditCardNumber" class="col-xs-2 control-label">Credit Card Number: </label>
-    		<div class="col-xs-4"><input type="text" name="cardNumber" class="form-control" placeholder="xxxxxxxxxxxxxxxx" required></div>
+    		<div class="col-xs-4"><input type="number" name="cardNumber" step="1" class="form-control" placeholder="xxxxxxxxxxxxxxxx" required></div>
 		</div>
 		<div class="form-group text-left">
     		<label for="cardExpireMonth" class="col-xs-2 control-label">Card Expire Month: </label>
-    		<div class="col-xs-2"><input type="text" name="cardExpireMonth" class="form-control" placeholder="MM" required></div>
+    		<div class="col-xs-2"><input type="number" min="01" max="12" name="cardExpireMonth" class="form-control" placeholder="MM" required></div>
     		<label for="cardExpireYear" class="col-xs-2 control-label">Card Expire Year: </label>
-    		<div class="col-xs-2"><input type="text" name="cardExpireYear" class="form-control" placeholder="YYYY" required></div>
+    		<div class="col-xs-2"><input type="number" min="{{ date('Y') }}" name="cardExpireYear" class="form-control" placeholder="YYYY" required></div>
 		</div>
 		<div class="form-group text-left">
     		<label for="creditCardCVV" class="col-xs-2 control-label">CVV: </label>
     		<div class="col-xs-2"><input type="password" name="creditCardCVV" class="form-control" placeholder="CVV" required></div>
 		</div>
-	    </form>
-	    <div class="form-group text-left">
+		<div class="form-group text-left">
 	    <div class="col-xs-offset-2 col-xs-10">
 	      <button class="btn btn-default" id="submitPayment">Pay</button>
 	    </div>
 	    </div>
+	    </form>
+	    
 
 </div>
-
-
-	<script src='http://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js'></script>
 	<script>
 		$(document).ready(function(){
 			$("#submitPayment").on('click', function(){
 				console.log("Submit Clicked. Submitting Form");
-				$("#Payment").submit();
 			});
 		});
 	</script>
