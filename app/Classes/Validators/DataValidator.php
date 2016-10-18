@@ -2,8 +2,8 @@
 
 namespace App\Classes\Validators;
 
-use App\Classes\Validators\CardValidatorInterface;
 use App\Classes\Card;
+use App\Classes\Validators\BaseCardValidator;
 
 class DataValidator {
 
@@ -11,7 +11,7 @@ class DataValidator {
 	private $card ;
 	private $errors;
 
-	public function __construct(CardValidatorInterface $type , Card $card){
+	public function __construct(BaseCardValidator $type , Card $card){
 		$this->validateInterface = $type;
 		$this->card = $card;
 		$this->errors = array();
@@ -19,11 +19,12 @@ class DataValidator {
 
 	public function validateCard(){
 
-		
-		$this->validateInterace->validateCardNumber();
-		$this->validateCardExpire();
-		$this->validateCVV();
-
+		$res1 = $this->validateInterface->validateCardNumber($this->card->cardnumber);
+		$res2 = $this->validateInterface->validateExpireDate($this->card->month, $this->card->year);
+		$res3 = $this->validateInterface->validateCVV($this->card->cvv);
+		$res4 = $this->validateInterface->validateHolderName($this->card->holdername);
+		$this->errors = array_merge($res1, $res2, $res3, $res4);
+		return $this->errors;
 
 	}
 
