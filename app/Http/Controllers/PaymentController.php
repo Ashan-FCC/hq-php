@@ -2,12 +2,15 @@
 namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Classes\Validators\DataValidator;
+use App\Classes\Validators\CardValidator;
 
 use App\Classes\Card;
 use App\Classes\Gateways\PaymentHandler;
 
 use App\Classes\Gateways\Braintree;
 use App\Classes\Gateways\Paypal;
+
+use App\Classes\Models\Currency;
 
 class PaymentController extends Controller
 {
@@ -21,34 +24,6 @@ class PaymentController extends Controller
         //
     }
 
-    public function processCreditCardbt(Request $request){
-        $cardnumber = $request->input('cardNumber');
-        $cvv = $request->input('creditCardCVV');
-        $month = $request->input('cardExpireMonth');
-        $year = $request->input('cardExpireYear');
-        $holdername = $request->input('nameOnCard');
-        $cardtype = $request->input('creditCardType');
-
-        $Currency = $request->input('currency');
-        $Amount = $request->input('amount');
-
-        $Currency = $request->input('currency');
-        $Amount = $request->input('amount');
-
-        $card = new Card($cardnumber, $cardtype, $cvv, $holdername, $month, $year);
-        $transaction = new \App\Classes\Transaction($Amount, $Currency);
-
-        $gateway = new Braintree();
-
-        $handler = new PaymentHandler();
-        $result = $handler->processCreditCard($gateway, $card, $transaction);
-        return $result;
-        return response($result)
-            ->withHeaders([
-                'Content-Type' => 'application/json']);
-
-    }
-
     public function processCreditCard(Request $request){
         //var_dump($request);
         $cardnumber = $request->input('cardNumber');
@@ -60,19 +35,42 @@ class PaymentController extends Controller
 
         $Currency = $request->input('currency');
         $Amount = $request->input('amount');
-
+ 
         //check restrictions
 
         $card = new Card($cardnumber, $cardtype, $cvv, $holdername, $month, $year);
-         $transaction = new \App\Classes\Transaction($Amount, $Currency);
+        $transaction = new \App\Classes\Transaction($Amount, $Currency);
+
+        // Validate the card data.
+        $cardvalidator = new CardValidator();
+        $validator = new DataValidator($cardvalidator , $card);
+        
+        $err = $validator->validateCard();
+        if(count($err) > 0){
+            return view('index',['errors'=>$err]);
+        }
+
+        //Check the restrictions
 
 
         // Find the payment channel.
+        try{
+            $currencyGateway = $this->getGatewayForChannel($Currency);
+           
+        }catch(\PDOException $ex){
+            return view('index',['errors'=>array('Database error. Please check your settings.', $ex->getMessage())]);
+        }
 
-        // Validate the card data.
+        try{
+            $gateway = $currencyGateway->gateway;
+            $channel = $gateway->gateway_name;
+        }catch(\Exception $ex){
+            return view('index',['errors'=>array( 'Whoops! Something went wrong. Check the database foreign id keys and models')]);
+        }
 
-       // $validator = new DataValidator();
-        $gateway = new Paypal();
+
+        $gateway = "App\\Classes\\Gateways\\".$channel;
+        $gateway = new $gateway();
         $handler = new PaymentHandler();
         $result = $handler->processCreditCard($gateway, $card, $transaction);
    
@@ -80,166 +78,14 @@ class PaymentController extends Controller
 
     }
 
-    public function firstcall(Request $request){
-    $apiContext = new ApiContext(
-                    new OAuthTokenCredential(env('Paypal_ClientID'),  env('Paypal_ClientSecret')));
-
-    $apiContext->setConfig(
-                          array(
-                            'log.LogEnabled' => true,
-                            'log.FileName' => 'PayPal.log',
-                            'log.LogLevel' => 'DEBUG',
-                            'mode' => 'sandbox'
-                          )
-                        );
-
-
-    $creditCard = new CreditCard();
-    $creditCard->setType("visa")
-                ->setNumber("4032032531467923")
-                ->setExpireMonth("11")
-                ->setExpireYear("2021")
-                ->setCvv2("012")
-                ->setFirstName("Joe")
-                ->setLastName("Shopper");
-
-    try {
-        $result = $creditCard->create($apiContext);
+    private function getGatewayForChannel($Currency){
+        try{
+            $c = Currency::where('currency_code',$Currency)->first();
+           
+        }catch(\PDOException $ex){
+            throw $ex;
         }
-        catch (PayPalConnectionException $ex) {
-        $result = $ex->getData();
-        }
-        return $result;
-        //$this->testTransaction($apiContext , $result);
-
-
-
-
-        //$this->makePayment($apiContext, $card);
+        return $c;
     }
 
-    private function testTransaction($apiContext , $creditCard){
-        $fi = new FundingInstrument();
-        $fi->setCreditCard($creditCard);
-
-        $payer = new Payer();
-        $payer->setPaymentMethod("credit_card")
-            ->setFundingInstruments(array($fi));
-        $item1 = new Item();
-        $item1->setName('Ground Coffee 40 oz')
-            ->setDescription('Ground Coffee 40 oz')
-            ->setCurrency('USD')
-            ->setQuantity(1)
-            ->setTax(0.3)
-            ->setPrice(7.50);
-        $item2 = new Item();
-        $item2->setName('Granola bars')
-            ->setDescription('Granola Bars with Peanuts')
-            ->setCurrency('USD')
-            ->setQuantity(5)
-            ->setTax(0.2)
-            ->setPrice(2);
-
-        $itemList = new ItemList();
-        $itemList->setItems(array($item1, $item2));
-
-        $details = new Details();
-        $details->setShipping(1.2)
-            ->setTax(1.3)
-            ->setSubtotal(17.5);
-
-        $amount = new Amount();
-        $amount->setCurrency("USD")
-            ->setTotal(20)
-        ->setDetails($details);
-
-        $transaction = new Transaction();
-        $transaction->setAmount($amount)
-            ->setItemList($itemList)
-            ->setDescription("Payment description")
-            ->setInvoiceNumber(uniqid());
-        $payment = new Payment();
-        $payment->setIntent("sale")
-            ->setPayer($payer)
-            ->setTransactions(array($transaction));
-
-        try {
-           $result = $payment->create($apiContext);
-           echo "<br>Payment Result";
-           var_dump($result);
-        } catch (\PayPal\Exception\PayPalConnectionException $ex) {
-            echo $ex->getData();
-            echo $ex->getCode();
-            // var_dump($ex);
-            // die($ex);
-        }
-
-    }
-    //
-    private function makePayment($apiContext , $card){
-
-        $fi = new FundingInstrument();
-        $fi->setCreditCard($card);
-        $payer = new Payer();
-        $payer->setPaymentMethod("credit_card")
-                ->setFundingInstruments(array($fi));
-
-        $item1 = new Item();
-        $item1->setName('Ground Coffee 40 oz')
-                ->setDescription('Ground Coffee 40 oz')
-                ->setCurrency('USD')
-                ->setQuantity(1)
-                ->setTax(0.3)
-                ->setPrice(7.50);
-                
-        $item2 = new Item();
-        $item2->setName('Granola bars')
-                ->setDescription('Granola Bars with Peanuts')
-                ->setCurrency('USD')
-                ->setQuantity(5)
-                ->setTax(0.2)
-                ->setPrice(2);
-
-        $itemList = new ItemList();
-        $itemList->setItems(array($item1, $item2));
-
-        $details = new Details();
-        $details->setShipping(1.2)
-            ->setTax(1.3)
-            ->setSubtotal(17.5);
-
-        $amount = new Amount();
-        $amount->setCurrency("USD")
-            ->setTotal(20)
-            ->setDetails($details);
-
-
-        $transaction = new Transaction();
-        $transaction->setAmount($amount)
-            ->setItemList($itemList)
-            ->setDescription("Payment description")
-            ->setInvoiceNumber(uniqid());
-
-        $payment = new Payment();
-        $payment->setIntent("sale")
-            ->setPayer($payer)
-            ->setTransactions(array($transaction));
-          //  var_dump($payment);
-    //     $request = clone $payment;
-
-        try {
-            $result = $payment->create($apiContext);
-        } catch (PayPalConnectionException $ex) {
-           echo "Exception<br>";
-           echo $ex->getMessage();
-           var_dump($ex);
-           die();
-        }
-         echo "<br>Result<br>";
-         echo $result;
-    //     var_dump($result);
-    //     echo "payment<br>";
-    //     var_dump($payment);
-    // 
-        }
 }
