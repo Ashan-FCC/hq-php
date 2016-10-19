@@ -6,7 +6,7 @@ use App\Classes\Gateways\Braintree;
 use App\Classes\Gateways\Gateway;
 use App\Classes\Models\Currency;
 
-class PaymentGatewayTest extends TestCase
+class PaymentGatewayInterfaceTest extends TestCase
 {
     /**
      * A basic test example.
