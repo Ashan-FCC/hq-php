@@ -1,10 +1,10 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-	<meta charset="UTF-8">
-	<title>Test Payment</title>
-	<!-- Latest compiled and minified CSS -->
-	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+@extends('layout')<!DOCTYPE html>
+
+@section('title')
+	Test Payment
+@stop
+
+@section('header')
 	<script src='http://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js'></script>
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 	<style>
@@ -17,8 +17,9 @@
 							    -moz-appearance: textfield;
 							}
 	</style>
-</head>
-<body>
+@stop
+
+@section('content')
 <hr>
 
 <div class="container">
@@ -41,7 +42,7 @@
   				{{ $success }} Close this for a new transaction.
 				</div>
 		@endif
-		<form class="form-horizontal" method="post" id="Payment"  action="http://localhost:8080/v1/processcreditcard" target="_top">
+		<form class="form-horizontal" method="post" id="Payment"  action="http://localhost:8080/v1/processcreditcard" target="_top" data-parsley-validate>
 		<h4 class = "col-xs-12"> Order</h4>
 		<div class="form-group text-left">		
 			<label for="amount" class="col-xs-2 control-label">Amount: </label>
@@ -50,7 +51,7 @@
 		</div>
 		<div class="form-group">
 			<label for="currency" class="col-xs-2 control-label">Currency: </label>
-	        	<div class="col-xs-6">        		
+	        	<div class="col-xs-10">        		
 	        	<label class="radio-inline">
 	            <input type="radio" value="USD" name="currency" required checked="checked"> USD
 	        	</label>
@@ -106,7 +107,7 @@
     	</div>
     	<div class="form-group text-left">
     		<label for="creditCardNumber" class="col-xs-2 control-label">Credit Card Number: </label>
-    		<div class="col-xs-4"><input type="number" name="cardNumber" step="1" class="form-control" placeholder="xxxxxxxxxxxxxxxx" required></div>
+    		<div class="col-xs-4"><input type="text" name="cardNumber" step="1" class="form-control ccnum" placeholder="xxxxxxxxxxxxxxxx" required></div>
 		</div>
 		<div class="form-group text-left">
     		<label for="cardExpireMonth" class="col-xs-2 control-label">Card Expire Month: </label>
@@ -116,7 +117,7 @@
 		</div>
 		<div class="form-group text-left">
     		<label for="creditCardCVV" class="col-xs-2 control-label">CVV: </label>
-    		<div class="col-xs-2"><input type="password" name="creditCardCVV" class="form-control" placeholder="CVV" required></div>
+    		<div class="col-xs-2"><input type="password" name="creditCardCVV" class="form-control" placeholder="CVV" required autocomplete="off"></div>
 		</div>
 		<div class="form-group text-left">
 	    <div class="col-xs-offset-2 col-xs-10">
@@ -124,15 +125,21 @@
 	    </div>
 	    </div>
 	    </form>
+
 	    
 
 </div>
+@stop
+
+@section('footer')
+<script src="js/parsley.min.js"></script>
 	<script>
 		$(document).ready(function(){
+
 			$("#submitPayment").on('click', function(){
 				console.log("Submit Clicked. Submitting Form");
+				// Format input for card number entry
 			});
 		});
 	</script>
-</body>
-</html>
+@stop
