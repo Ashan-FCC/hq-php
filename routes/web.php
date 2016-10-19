@@ -15,6 +15,10 @@ $app->get('/', function () use ($app) {
     return view('index');
 });
 
+$app->get('/form' , function() use($app){
+	return view('validation');
+});
+
 $app->post('/v1/processcreditcard' , 'PaymentController@processCreditCard');
 $app->post('/v1/processcreditcardbt' , 'PaymentController@processCreditCardbt');
 
