@@ -15,6 +15,8 @@ use PayPal\Api\Payer;
 use PayPal\Api\Payment;
 use PayPal\Api\Transaction;
 
+use Illuminate\Http\Response;
+
 class Paypal implements Gateway {
 
 	public function name(){
@@ -66,23 +68,29 @@ class Paypal implements Gateway {
         $payment->setIntent("sale")
             ->setPayer($payer)
             ->setTransactions(array($tr));
-           
+        
+        $response = new Response();
         try {
            $result = $payment->create($apiContext);
         } catch (\PayPal\Exception\PayPalConnectionException $ex) {
             $result = $ex->getData();
             $errors = $this->getErrors($result);
-            return view('index',['errors'=>$errors]);
+            //return view('index',['errors'=>$errors]);
+            return $response->setStatusCode(Response::HTTP_BAD_REQUEST, "Error at Paypal gateway")
+                            ->setContent(['errors'=>$errors]);
         }
 
         if($result->state === 'approved' && $result->intent==='sale'){
-             return view('index',['success'=>'Transaction completed using PayPal gateway.']);
+            // return view('index',['success'=>'Transaction completed using PayPal gateway.']);
+
+            return $response->setStatusCode(200)
+                            ->setContent(['success'=>'Transaction completed using PayPal gateway.'] );
         }
         
 	}
 
     private function getErrors($result){
-        $errors = $result->details;
+        $errors = json_decode($result)->details;
         $result = array();
         foreach($errors as $error){
             array_push($result, $error->field . "\n" . $error->issue);
