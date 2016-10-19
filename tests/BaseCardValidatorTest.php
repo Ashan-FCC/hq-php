@@ -3,13 +3,14 @@
 use Laravel\Lumen\Testing\DatabaseTransactions;
 use App\Classes\Validators\BaseCardValidator;
 use App\Classes\Validators\CardValidator;
+use App\Classes\Validators\Resources\SourceCodeResource;
 
 class BaseCardValidatorTest extends TestCase
 {
     private $validator;
 
     public function setUp(){
-        $this->validator = new CardValidator();
+        $this->validator = new CardValidator(new SourceCodeResource);
     }
 
     public function testCorrectValidExpireDate(){

@@ -7,7 +7,7 @@ abstract class BaseCardValidator{
 
 
 
-	abstract protected function validateCardNumber($cardnumber);
+	abstract protected function validateCardNumber($cardnumber, $type);
 
 	public function validateExpireDate($month, $year){
 		$errors = array();

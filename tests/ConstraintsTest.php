@@ -53,8 +53,8 @@ class ConstraintsTest extends TestCase
         return array(
           array('visa', 'EUR', false),
           array('mastercard', 'USD', false),
-          array('amex', 'USD', true),
-          array('amex', 'THB', false)
+          array('amex', 'USD', false),
+          array('amex', 'THB', true)
         );
     }
 }
