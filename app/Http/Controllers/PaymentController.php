@@ -11,6 +11,9 @@ use App\Classes\Gateways\Braintree;
 use App\Classes\Gateways\Paypal;
 
 use App\Classes\Models\Currency;
+use App\Classes\Models\Restriction;
+
+use App\Classes\Validators\Resources\SourceCodeResource;
 
 class PaymentController extends Controller
 {
@@ -42,7 +45,7 @@ class PaymentController extends Controller
         $transaction = new \App\Classes\Transaction($Amount, $Currency);
 
         // Validate the card data.
-        $cardvalidator = new CardValidator();
+        $cardvalidator = new CardValidator(new SourceCodeResource);
         $validator = new DataValidator($cardvalidator , $card);
         
         $err = $validator->validateCard();
@@ -51,7 +54,9 @@ class PaymentController extends Controller
         }
 
         //Check the restrictions
-
+        if(Restriction::restricted($cardtype, $Currency)){
+            return view('index', ['errors'=>array("Card type $cardtype cannot be used for currency $Currency")]);
+        }
 
         // Find the payment channel.
         try{
