@@ -14,6 +14,7 @@ use App\Classes\Models\Currency;
 use App\Classes\Models\Restriction;
 
 use App\Classes\Validators\Resources\SourceCodeResource;
+use Illuminate\Http\Response;
 
 class PaymentController extends Controller
 {
@@ -50,12 +51,12 @@ class PaymentController extends Controller
         
         $err = $validator->validateCard();
         if(count($err) > 0){
-            return view('index',['errors'=>$err]);
+            return $this->sendError($err);
         }
 
         //Check the restrictions
         if(Restriction::restricted($cardtype, $Currency)){
-            return view('index', ['errors'=>array("Card type $cardtype cannot be used for currency $Currency")]);
+            return $this->sendError(array("Card type $cardtype cannot be used for currency $Currency"));
         }
 
         // Find the payment channel.
@@ -63,14 +64,14 @@ class PaymentController extends Controller
             $currencyGateway = $this->getGatewayForChannel($Currency);
            
         }catch(\PDOException $ex){
-            return view('index',['errors'=>array('Database error. Please check your settings.', $ex->getMessage())]);
+            return $this->sendError(array('Database error. Please check your settings.', $ex->getMessage()));
         }
 
         try{
             $gateway = $currencyGateway->gateway;
             $channel = $gateway->gateway_name;
         }catch(\Exception $ex){
-            return view('index',['errors'=>array( 'Whoops! Something went wrong. Check the database foreign id keys and models')]);
+            return $this->sendError(array('Whoops! Something went wrong. Check the database foreign id keys and models'));
         }
 
 
@@ -91,6 +92,12 @@ class PaymentController extends Controller
             throw $ex;
         }
         return $c;
+    }
+
+    private function sendError($errors){
+        $response = new Response();
+        return $response->setStatusCode(Response::HTTP_BAD_REQUEST, "Bad payment Data")
+                            ->setContent(['errors'=>$errors]);
     }
 
 }

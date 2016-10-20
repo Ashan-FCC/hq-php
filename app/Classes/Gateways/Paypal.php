@@ -81,21 +81,17 @@ class Paypal implements Gateway {
         }
 
         if($result->state === 'approved' && $result->intent==='sale'){
-            // return view('index',['success'=>'Transaction completed using PayPal gateway.']);
 
-            return $response->setStatusCode(200)
+        return $response->setStatusCode(200)
                             ->setContent(['success'=>'Transaction completed using PayPal gateway.'] );
         }
         
 	}
 
     private function getErrors($result){
-        $errors = json_decode($result)->details;
-        $result = array();
-        foreach($errors as $error){
-            array_push($result, $error->field . "\n" . $error->issue);
-        }
-        return $result;
+        $errors = array();
+        array_push($errors , json_decode($result)->message);
+        return $errors;
 
     }
 

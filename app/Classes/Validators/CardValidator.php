@@ -8,6 +8,7 @@ class CardValidator extends BaseCardValidator {
 	private $cardarray;
 
 	public function __construct(SpecificationResourceInterface $resource){
+
 		$this->cardarray = $resource->CardSpecification();
 	
 	}
@@ -52,7 +53,7 @@ public function validateCardNumber($number , $type = 'default')
 
     // Remove all non-digit characters from the number
     if (($number = preg_replace('/\D+/', '', $number)) === '')
-        return FALSE;
+        return array();
 
     $cards = $this->cardarray;
 
@@ -86,6 +87,7 @@ public function validateCardNumber($number , $type = 'default')
     if(!$this->luhn($number)){
     	return array('Card number is not verfied.');
     }
+    return array();
 
 }
 }
