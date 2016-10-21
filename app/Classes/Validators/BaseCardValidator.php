@@ -5,8 +5,6 @@ use DateTime;
 
 abstract class BaseCardValidator{
 
-
-
 	abstract protected function validateCardNumber($cardnumber, $type);
 
 	public function validateExpireDate($month, $year){
