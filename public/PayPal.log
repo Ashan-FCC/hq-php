@@ -1421,3 +1421,17 @@
 
 ================================================================================================================================
 
+[21-10-2016 06:42:32] PayPal\Core\PayPalHttpConnection : INFO: POST https://api.sandbox.paypal.com/v1/oauth2/token
+[21-10-2016 06:42:34] PayPal\Core\PayPalHttpConnection : INFO: Invalid or no certificate authority found - Retrying using bundled CA certs file
+[21-10-2016 06:42:37] PayPal\Core\PayPalHttpConnection : DEBUG: Request Headers 	: POST /v1/oauth2/token HTTP/1.1, Host: api.sandbox.paypal.com, User-Agent: PayPalSDK/PayPal-PHP-SDK 1.8.0 (platform-ver=5.5.19; bit=32; os=Windows_NT_6.2; machine=i586; crypto-lib-ver=1.0.1i; curl=7.39.0), Authorization: Basic QWNTTk9aM0FnN0lZbFJqakMtUDZGbFlsaWRodWJNRmd1ZFJkUkxEck5WTEpYMnZObFNhNTBtQ1FGY19oRk1lVVlJT1ZNT3JwblBlNWJuMmY6RU5fMU9NS3JFLUxHaDhkRWY1ZFJBWUctczJFZ2pxRE9QdWFfQ21fSk9BcV9mY1ZsandvTTB5d3dETU50cE9XUXN3MGt1aDV2RG9lTFFNd0o=, Accept: */*, Content-Length: 29, Content-Type: application/x-www-form-urlencoded, , 
+[21-10-2016 06:42:37] PayPal\Core\PayPalHttpConnection : DEBUG: Request Data		: grant_type=client_credentials
+--------------------------------------------------------------------------------------------------------------------------------
+
+[21-10-2016 06:42:37] PayPal\Core\PayPalHttpConnection : INFO: Response Status 	: 200
+[21-10-2016 06:42:37] PayPal\Core\PayPalHttpConnection : DEBUG: Response Headers	: HTTP/1.1 200 OK, Date: Fri, 21 Oct 2016 11:42:34 GMT, Server: Apache, PROXY_SERVER_INFO: host=slcsbplatformapiserv3001.slc.paypal.com;threadId=235, Paypal-Debug-Id: 659223637b9c1, CORRELATION-ID: 659223637b9c1, X-PAYPAL-TOKEN-SERVICE: IAAS, Paypal-Debug-Id: 659223637b9c1, Set-Cookie: X-PP-SILOVER=name%3DSANDBOX3.API.1%26silo_version%3D1880%26app%3Dplatformapiserv%26TIME%3D721357144%26HTTP_X_PP_AZ_LOCATOR%3D; Expires=Fri, 21 Oct 2016 12:12:36 GMT; domain=.paypal.com; path=/; Secure; HttpOnly, Set-Cookie: X-PP-SILOVER=; Expires=Thu, 01 Jan 1970 00:00:01 GMT, Vary: Authorization, Content-Length: 550, Connection: close, Content-Type: application/json, , 
+[21-10-2016 06:42:37] PayPal\Core\PayPalHttpConnection : DEBUG: Response Data 	: {"scope":"https://uri.paypal.com/services/subscriptions https://api.paypal.com/v1/payments/.* https://api.paypal.com/v1/vault/credit-card https://uri.paypal.com/services/applications/webhooks openid https://uri.paypal.com/payments/payouts https://api.paypal.com/v1/vault/credit-card/.*","nonce":"2016-10-21T11:42:34ZZjti_QhudRqEFUHPSlQSJJk-pEY4IJnwKKx9IF01VtU","access_token":"A101.QN1HfrMz3yQZJJXF40VcYn1qHWD17j6wcocfi_6iFMwVke1DtA9wDxL7wl1AATbC.W_ncPCTofe15En253LNlX9jmriW","token_type":"Bearer","app_id":"APP-80W284485P519543T","expires_in":32398}
+
+================================================================================================================================
+
+[21-10-2016 06:42:37] PayPal\Core\PayPalHttpConnection : INFO: POST https://api.sandbox.paypal.com/v1/payments/payment
+[21-10-2016 06:42:38] PayPal\Core\PayPalHttpConnection : INFO: Invalid or no certificate authority found - Retrying using bundled CA certs file
