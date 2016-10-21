@@ -2,6 +2,10 @@
 
 require_once __DIR__.'/../vendor/autoload.php';
 
+use Monolog\Formatter\LineFormatter;
+use Monolog\Handler\RotatingFileHandler;
+use Monolog\Logger;
+
 try {
     (new Dotenv\Dotenv(__DIR__.'/../'))->load();
 } catch (Dotenv\Exception\InvalidPathException $e) {
@@ -83,6 +87,24 @@ $app->singleton(
 // $app->register(App\Providers\AuthServiceProvider::class);
 // $app->register(App\Providers\EventServiceProvider::class);
 $app->register(Vluzrmos\Tinker\TinkerServiceProvider::class);
+
+$app->configureMonologUsing(function ($monolog) {
+    $maxFiles = 7;
+    $dateformat = "Y-m-d H:i:s";
+    $formatter = new LineFormatter(null, $dateformat, true, true);
+
+    $errorLogHandler = (new RotatingFileHandler(storage_path('/logs/payment_error.log'), $maxFiles))
+        ->setFormatter($formatter);
+    // $debugLogHandler = (new RotatingFileHandler(storage_path('/logs/payment_debug.log'), $maxFiles, LOGGER::DEBUG))
+    //     ->setFormatter($formatter);
+    // $infoLogHandler = (new RotatingFileHandler(storage_path('/logs/payment_info.log'), $maxFiles, LOGGER::INFO))
+    //     ->setFormatter($formatter);
+
+        
+    $monolog->setHandlers([$errorLogHandler]);//,$debugLogHandler, $infoLogHandler 
+
+    return $monolog;
+});
 /*
 |--------------------------------------------------------------------------
 | Load The Application Routes

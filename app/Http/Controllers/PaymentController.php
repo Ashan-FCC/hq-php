@@ -1,6 +1,7 @@
 <?php
 namespace App\Http\Controllers;
 use Illuminate\Http\Request;
+use Log;
 use App\Classes\Validators\DataValidator;
 use App\Classes\Validators\CardValidator;
 
@@ -30,6 +31,7 @@ class PaymentController extends Controller
 
     public function processCreditCard(Request $request){
         //var_dump($request);
+        Log::info('Request received: ', ['Request'=>$request->all()]);
         $cardnumber = $request->input('cardNumber');
         $cvv = $request->input('creditCardCVV');
         $month = $request->input('cardExpireMonth');
@@ -51,11 +53,13 @@ class PaymentController extends Controller
         
         $err = $validator->validateCard();
         if(count($err) > 0){
+            Log::error('Error validating data: ', ['Errors'=>$err]);
             return $this->sendError($err);
         }
 
         //Check the restrictions
         if(Restriction::restricted($cardtype, $Currency)){
+            Log::error('Transaction restricted by Card type: ', ['Card'=>$cardtype , 'Currency'=>$Currency]);
             return $this->sendError(array("Card type $cardtype cannot be used for currency $Currency"));
         }
 
@@ -64,14 +68,16 @@ class PaymentController extends Controller
             $currencyGateway = $this->getGatewayForChannel($Currency);
            
         }catch(\PDOException $ex){
-            return $this->sendError(array('Database error. Please check your settings.', $ex->getMessage()));
+
+            return $this->sendError(array('Something went wrong at our end. Please try again later.', $ex->getMessage()));
         }
 
         try{
             $gateway = $currencyGateway->gateway;
             $channel = $gateway->gateway_name;
         }catch(\Exception $ex){
-            return $this->sendError(array('Whoops! Something went wrong. Check the database foreign id keys and models'));
+            Log::error('Error occurred trying to get the gateway for currency:'.$Currency."\n".$ex->getMessage());
+            return $this->sendError(array('Whoops! Something went wrong. Check the currency type.'));
         }
 
 
@@ -89,6 +95,7 @@ class PaymentController extends Controller
             $c = Currency::where('currency_code',$Currency)->first();
            
         }catch(\PDOException $ex){
+   
             throw $ex;
         }
         return $c;
