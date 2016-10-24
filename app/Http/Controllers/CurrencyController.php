@@ -12,7 +12,7 @@ class CurrencyController extends Controller
  	public function index(){
        
        $currencies = Currency::all();
-       return $gateways;
+       return $currencies;
     
   	}	
 

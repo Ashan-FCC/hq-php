@@ -71,7 +71,9 @@ class Paypal implements Gateway {
         
         $response = new Response();
         try {
+
            $result = $payment->create($apiContext);
+           
         } catch (\PayPal\Exception\PayPalConnectionException $ex) {
             $result = $ex->getData();
             $errors = $this->getErrors($result);

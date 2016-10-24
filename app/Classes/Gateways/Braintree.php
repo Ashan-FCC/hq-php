@@ -9,6 +9,7 @@ use Braintree\Result\Error;
 use Braintree\Result\Successful;
 use Exception;
 use Illuminate\Http\Response;
+use Log;
 
 
 class Braintree implements Gateway {
@@ -24,6 +25,7 @@ class Braintree implements Gateway {
         Braintree_Configuration::publicKey(env('braintree_public_key'));
         Braintree_Configuration::privateKey(env('braintree_private_key'));
 
+        try{
 
         $result = Braintree_Transaction::sale([
             'amount' => $transaction->amount,
@@ -37,23 +39,36 @@ class Braintree implements Gateway {
 
             ]
         ]);
-        $response = new Response();
-        if(!$result->success){
+        }catch(Exception $ex){
+            Log::error('Error occured',['errors'=>$ex->getMessage()]);
+        }
+
+        try{
+
+         $response = new Response();
+         var_dump($result);
+        if(!$result->success) {
             $errors = array();
             foreach($result->errors->deepAll() AS $error) {
             array_push($errors ,  $error->message);
             }
-        
-        return $response->setStatusCode(Response::HTTP_BAD_REQUEST, "Error at Paypal gateway")
-                            ->setContent(['errors'=>$errors]);
+        Log::info('Transaction failed at Braintree gateway',['errors'=>$errors]);
+        return $response->setStatusCode(Response::HTTP_BAD_REQUEST, "Error at Braintree gateway")->setContent(['errors'=>$errors]);
            
         }else{
-         return $response->setStatusCode(200)
+        
+        Log::info('Transaction success at Braintree gateway',['errors'=>$errors]);
+        return $response->setStatusCode(200)
                             ->setContent(['success'=>'Transaction completed using Braintree gateway.'] );
         }
+        }catch(Exception $ex){
+            Log::error('Error',['error' =>$ex->getMessage()]);
+            Log::error(json_encode($ex));
+        }
+   
 
         //return array('success' => 'Transaction completed using BrainTree gateway.');
-        return view('index',['success'=>'Transaction completed using BrainTree gateway.']);
+       // return view('index',['success'=>'Transaction completed using BrainTree gateway.']);
 	}
 	
 }

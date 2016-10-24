@@ -68,8 +68,8 @@ class PaymentController extends Controller
             $currencyGateway = $this->getGatewayForChannel($Currency);
            
         }catch(\PDOException $ex){
-
-            return $this->sendError(array('Something went wrong at our end. Please try again later.', $ex->getMessage()));
+            Log::error('Error happened '.$ex->getMessage());
+            return $this->sendError(array('Something went wrong at our end. Please try again later.'));
         }
 
         try{
@@ -92,10 +92,10 @@ class PaymentController extends Controller
 
     private function getGatewayForChannel($Currency){
         try{
+
             $c = Currency::where('currency_code',$Currency)->first();
            
         }catch(\PDOException $ex){
-   
             throw $ex;
         }
         return $c;
@@ -103,8 +103,7 @@ class PaymentController extends Controller
 
     private function sendError($errors){
         $response = new Response();
-        return $response->setStatusCode(Response::HTTP_BAD_REQUEST, "Bad payment Data")
-                            ->setContent(['errors'=>$errors]);
+        return $response->setStatusCode(Response::HTTP_BAD_REQUEST, "Bad payment Data")->setContent(['errors'=>$errors]);
     }
 
 }

@@ -43,13 +43,13 @@ class ConstraintsTest extends TestCase
     }
 
     /**
-     * @dataProvider dataProvider
+     * @dataProvider Restrictions
      */
     public function testRestrictionsforVisaUSD($cardtype, $currency, $expected){
         $this->assertEquals($expected, Restriction::restricted($cardtype, $currency));
     }
 
-    public function dataProvider(){
+    public function Restrictions(){
         return array(
           array('visa', 'EUR', false),
           array('mastercard', 'USD', false),

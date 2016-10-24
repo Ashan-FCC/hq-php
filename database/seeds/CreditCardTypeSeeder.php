@@ -3,7 +3,7 @@
 use Illuminate\Database\Seeder;
 use App\Classes\Models\CreditCardType;
 
-class CreditCardTypesSeeder extends Seeder
+class CreditCardTypeSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -18,6 +18,5 @@ class CreditCardTypesSeeder extends Seeder
     								'created_at'=>new DateTime,
     								'updated_at'=>new DateTime]);
     	}
-        $this->call('CreditCardTypesSeeder');
     }
 }

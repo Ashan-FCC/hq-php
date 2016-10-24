@@ -11,6 +11,9 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-        // $this->call('UsersTableSeeder');
+        $this->call('CreditCardTypeSeeder');
+        $this->call('PaymentGatewaySeeder');
+        $this->call('CurrencySeeder');
+        $this->call('RestrictionSeeder');
     }
 }

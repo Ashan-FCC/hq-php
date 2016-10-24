@@ -20,7 +20,6 @@ $app->get('/form' , function() use($app){
 });
 
 $app->post('/v1/processcreditcard' , 'PaymentController@processCreditCard');
-$app->post('/v1/processcreditcardbt' , 'PaymentController@processCreditCardbt');
 
 $app->get('/v1/FirstCall' , 'PaymentController@firstcall');
 
