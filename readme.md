@@ -16,13 +16,16 @@ Set the database name, user and password.
 
 In the document root run the following commands.
 
-Update composer's autoload classes.
-<code> composer dumpautoload <code>
+1. Update composer's autoload classes. <br>
+<code> composer dumpautoload </code>
 
-Now we will create the tables in the database.
-<code> php artisan migrate <code>
+2. Now we will create the tables in the database. <br>
+<code> php artisan migrate </code>
 
-Fill the database with some records needed for the application.
+3. Fill the database with some records needed for the application. <br>
+<code> php artisan db:seed </code>
 
-<code> php artisan db:seed <code>
+Create a php server with the public folder of the application as the document root.
+<code> php -S localhost:8080 -t public </code>
 
+Open a browser and go to localhost:8080 and the payment form will be available.
