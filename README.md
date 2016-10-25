@@ -25,7 +25,7 @@ In the document root run the following commands.
 3. Fill the database with some records needed for the application. <br>
 <code> php artisan db:seed </code>
 
-Create a php server with the public folder of the application as the document root.
-<code> php -S localhost:8080 -t public </code>
+Create a php server with the public folder of the application as the document root. <br>
+<code> php -S localhost:8080 -t public </code> 
 
 Open a browser and go to localhost:8080 and the payment form will be available.
