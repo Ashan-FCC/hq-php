@@ -16,13 +16,12 @@ Set the database name, user and password.
 
 In the document root run the following commands.
 
-Update composer's autoload classes.
+1. Update composer's autoload classes. <br>
 <code> composer dumpautoload </code>
 
-Now we will create the tables in the database.
+2. Now we will create the tables in the database. <br>
 <code> php artisan migrate </code>
 
-Fill the database with some records needed for the application.
-
+3. Fill the database with some records needed for the application. <br>
 <code> php artisan db:seed </code>
 
