@@ -14,8 +14,10 @@ use PayPal\Api\ItemList;
 use PayPal\Api\Payer;
 use PayPal\Api\Payment;
 use PayPal\Api\Transaction;
+use Log;
 
 use Illuminate\Http\Response;
+ini_set('max_execution_time', 120);
 
 class Paypal implements Gateway {
 
@@ -25,13 +27,20 @@ class Paypal implements Gateway {
 	
 	public function processCreditCard(Card $card , \App\Classes\Transaction $transaction){
 
-		$apiContext = new ApiContext(
-                    new OAuthTokenCredential(env('Paypal_ClientID'),  env('Paypal_ClientSecret')));
+        $response = new Response();
+       // try{
+           $apiContext = new ApiContext(
+                    new OAuthTokenCredential(env('Paypal_ClientID'),  env('Paypal_ClientSecret'))); 
+      /* }catch(Exception $ex){
+        Log::critical('Error at paypal gateway: '.$ex->getMessage());
+        return $response->setStatusCode(Response::HTTP_BAD_REQUEST, "Error at Paypal gateway")->setContent(['errors'=>'Oh no! Something  went wrong. Were trying to fix it now']);
+       }*/
+		
 
         $apiContext->setConfig(
                           array(
                             'log.LogEnabled' => true,
-                            'log.FileName' => 'PayPal.log',
+                            'log.FileName' => '../storage/logs/Paypal.log',
                             'log.LogLevel' => 'DEBUG',
                             'mode' => 'sandbox'
                           )
@@ -69,7 +78,7 @@ class Paypal implements Gateway {
             ->setPayer($payer)
             ->setTransactions(array($tr));
         
-        $response = new Response();
+        
         try {
 
            $result = $payment->create($apiContext);
@@ -77,16 +86,24 @@ class Paypal implements Gateway {
         } catch (\PayPal\Exception\PayPalConnectionException $ex) {
             $result = $ex->getData();
             $errors = $this->getErrors($result);
-            //return view('index',['errors'=>$errors]);
             return $response->setStatusCode(Response::HTTP_BAD_REQUEST, "Error at Paypal gateway")
                             ->setContent(['errors'=>$errors]);
         }
+            echo "<pre>";
+            print_r($result);
+            echo "</pre>";
+        if(env('APP_ENV')==="local"){
 
-        if($result->state === 'approved' && $result->intent==='sale'){
-
-        return $response->setStatusCode(200)
-                            ->setContent(['success'=>'Transaction completed using PayPal gateway.'] );
+            if(($result->state === 'approved' || $result->state === 'created') && $result->intent==='sale'){
+                Log::info("Success at PayPal");
+                return $response->setStatusCode(200)
+                                    ->setContent(['success'=>'Transaction completed using PayPal gateway.'] );
+            }
+        }else if(env('APP_ENV')==='production'){
+            return $response->setStatusCode(400)
+                                    ->setContent(['error'=>'Not ready for production yet. Check conditions.'] );
         }
+
         
 	}
 

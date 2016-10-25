@@ -4,6 +4,8 @@ namespace App\Classes\Gateways;
 use App\Classes\Gateways\Gateway;
 use App\Classes\Card;
 use App\Classes\Transaction;
+use App\Classes\Models\PaymentGateway;
+use Log;
 
 class PaymentHandler {
 
@@ -14,6 +16,7 @@ class PaymentHandler {
 
 	public function processCreditCard(Gateway $pgateway, Card $card, Transaction $transaction){
 		// Save order to database
+		$gateway_id = PaymentGateway::select('id')->where('gateway_name',$pgateway->name());
 
 		// Do the payment
 		try{

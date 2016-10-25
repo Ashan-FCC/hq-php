@@ -33,8 +33,9 @@ class Braintree implements Gateway {
             'creditCard' => ['number'=> $card->cardnumber,
                              'expirationMonth'=>$card->month,
                              'expirationYear'=>$card->year,
-
+                             'cardholderName'=>$card->holdername,
                              'cvv'=>$card->cvv],
+            'orderId' => $transaction->invoiceid,
             'options' => [
             'submitForSettlement' => True,
 
@@ -58,8 +59,13 @@ class Braintree implements Gateway {
                
             }else
             {
-            
-            Log::info('Transaction success at Braintree gateway',['errors'=>$errors]);
+            echo "<pre>";
+            print_r($result);
+            echo "</pre>";
+            Log::info('Transaction success at Braintree gateway');
+            $transaction = $result->transaction;
+            echo $transaction;
+            //$status = $transaction->
             return $response->setStatusCode(200)
                                 ->setContent(['success'=>'Transaction completed using Braintree gateway.'] );
             }
@@ -67,10 +73,6 @@ class Braintree implements Gateway {
             Log::error('Error: '.$ex->getMessage());
             Log::error(json_encode($ex));
         }
-   
-
-        //return array('success' => 'Transaction completed using BrainTree gateway.');
-       // return view('index',['success'=>'Transaction completed using BrainTree gateway.']);
 	}
 	
 }
