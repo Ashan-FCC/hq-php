@@ -15,6 +15,7 @@ use PayPal\Api\Payer;
 use PayPal\Api\Payment;
 use PayPal\Api\Transaction;
 use Log;
+use App\Classes\Models\PaymentGateway;
 
 use Illuminate\Http\Response;
 ini_set('max_execution_time', 120);
@@ -24,6 +25,10 @@ class Paypal implements Gateway {
 	public function name(){
 		return 'Paypal';
 	}
+
+    private function getId(){
+        return PaymentGateway::getId($this->name());
+    }
 	
 	public function processCreditCard(Card $card , \App\Classes\Transaction $transaction){
 
@@ -112,6 +117,16 @@ class Paypal implements Gateway {
         array_push($errors , json_decode($result)->message);
         return $errors;
 
+    }
+
+    private function storeData($result, $transaction, $card){
+        $transactionId = $result->id;
+        $status = $result->state;
+        $type = $result->intent;
+        $gatewayid = $this->getId();
+        $orderId = $result->orderId;
+        $createdAt = $result->createdAt->date;
+        
     }
 
 }

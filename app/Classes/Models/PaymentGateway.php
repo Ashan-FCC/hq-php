@@ -14,6 +14,10 @@ protected $table ="PaymentGateways";
 	  return $this->hasMany(Currency::class , 'gateway_id');
 
 	}
+
+	public static function getId($name){
+		return self::select('id')->where('gateway_name',$name)->first();
+	}
 }
 
 ?>

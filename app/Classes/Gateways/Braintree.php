@@ -3,6 +3,7 @@
 namespace App\Classes\Gateways;
 use App\Classes\Card;
 use App\Classes\Transaction;
+use App\Classes\Models\PaymentGateway;
 use Braintree_Configuration;
 use Braintree_Transaction;
 use Braintree\Result\Error;
@@ -17,6 +18,11 @@ class Braintree implements Gateway {
 	public function name(){
 		return 'Braintree';
 	}
+
+    private function getId(){
+        return PaymentGateway::getId($this->name());
+    }
+
 
 	public function processCreditCard(Card $card,Transaction $transaction)
     {
@@ -64,8 +70,7 @@ class Braintree implements Gateway {
             echo "</pre>";
             Log::info('Transaction success at Braintree gateway');
             $transaction = $result->transaction;
-            echo $transaction;
-            //$status = $transaction->
+
             return $response->setStatusCode(200)
                                 ->setContent(['success'=>'Transaction completed using Braintree gateway.'] );
             }
@@ -74,6 +79,19 @@ class Braintree implements Gateway {
             Log::error(json_encode($ex));
         }
 	}
+
+    private function storeData($result , $transaction, $card){
+        $transactionId = $result->id;
+        $status = $result->status;
+        $type = $result->type;
+        $gatewayid = $this->getId();
+        $orderId = $transaction->invoiceid;
+        $createdAt = $result->createdAt->date;
+
+
+
+
+    }
 	
 }
 
