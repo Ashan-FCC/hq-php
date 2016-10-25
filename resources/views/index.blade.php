@@ -1,7 +1,7 @@
 @extends('layout')<!DOCTYPE html>
 
 @section('title')
-	Test Payment
+	Test Paymen
 @stop
 
 @section('header')
@@ -42,7 +42,7 @@
   				{{ $success }} Close this for a new transaction.
 				</div>
 		@endif
-		<form class="form-horizontal" method="post" id="Payment"  action="http://localhost:8080/v1/processcreditcard" target="_top" data-parsley-validate>
+		<form class="form-horizontal" method="post" id="Payment"  action="{{env('API_URL')}}/v1/processcreditcard" target="_top" data-parsley-validate>
 		<h4 class = "col-xs-12"> Order</h4>
 		<div class="form-group text-left">		
 			<label for="amount" class="col-xs-2 control-label">Amount: </label>
