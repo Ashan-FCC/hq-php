@@ -6,6 +6,5 @@ use App\Classes\Validators\Resources\SpecificationResourceInterface;
 
 class TransactionValidator extends BaseTransactionValidator {
 	private $cardarray;
-
 	
 }

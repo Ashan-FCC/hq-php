@@ -19,6 +19,8 @@ class PaymentHandler {
 		try{
 			$result = $pgateway->processCreditCard($card, $transaction);
 		}catch(\Exception $ex){
+			Log::critical('error occurred: '.$ex->getMessage());
+			
 			return view('index',['errors'=>array( $ex->getMessage())]);
 		}
 
