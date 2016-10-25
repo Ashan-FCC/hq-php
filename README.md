@@ -11,4 +11,18 @@ Clone the project and in the project root folder, run
 
 <code>composer install </code>
 
-Make sure to set the Paypal_ClientID and Paypal_ClientSecret variables of the .env file to the API credentials of your own
+Edit .env file in the root directory. 
+Set the database name, user and password.
+
+In the document root run the following commands.
+
+Update composer's autoload classes.
+<code> composer dumpautoload <code>
+
+Now we will create the tables in the database.
+<code> php artisan migrate <code>
+
+Fill the database with some records needed for the application.
+
+<code> php artisan db:seed <code>
+
