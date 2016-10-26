@@ -16,6 +16,9 @@ use PayPal\Api\Payment;
 use PayPal\Api\Transaction;
 use Log;
 use App\Classes\Models\PaymentGateway;
+use App\Classes\Models\CreditCardResponse;
+use DateTime;
+use DateTimeZone;
 
 use Illuminate\Http\Response;
 ini_set('max_execution_time', 120);
@@ -26,8 +29,8 @@ class Paypal implements Gateway {
 		return 'Paypal';
 	}
 
-    private function getId(){
-        return PaymentGateway::getId($this->name());
+    public function getId(){
+        return PaymentGateway::getId($this->name())->id;
     }
 	
 	public function processCreditCard(Card $card , \App\Classes\Transaction $transaction){
@@ -82,7 +85,7 @@ class Paypal implements Gateway {
         $payment->setIntent("sale")
             ->setPayer($payer)
             ->setTransactions(array($tr));
-        
+          
         
         try {
 
@@ -94,12 +97,11 @@ class Paypal implements Gateway {
             return $response->setStatusCode(Response::HTTP_BAD_REQUEST, "Error at Paypal gateway")
                             ->setContent(['errors'=>$errors]);
         }
-            echo "<pre>";
-            print_r($result);
-            echo "</pre>";
+
         if(env('APP_ENV')==="local"){
 
             if(($result->state === 'approved' || $result->state === 'created') && $result->intent==='sale'){
+                $this->storeData($result,$transaction, $card);
                 Log::info("Success at PayPal");
                 return $response->setStatusCode(200)
                                     ->setContent(['success'=>'Transaction completed using PayPal gateway.'] );
@@ -124,11 +126,41 @@ class Paypal implements Gateway {
         $status = $result->state;
         $type = $result->intent;
         $gatewayid = $this->getId();
-        $orderId = $result->orderId;
-        $createdAt = $result->createdAt->date;
+        $orderId = $transaction->invoiceid;
+ 
+
+        $last4 = substr($card->cardnumber, -4);
+        $expire = $card->month . "/" . $card->year;
+
+        $created_time = $result->create_time;
+        $created_time = $this->formatDateTime($created_time);
+
+        $updated_at = $result->update_time;
+        $updated_at = $this->formatDateTime($updated_at);
+
+        CreditCardResponse::create(['transaction_id'=>$transactionId,
+                                    'transaction_type'=>$type,
+                                    'transaction_status'=>$status,
+                                    'gateway_id'=>$gatewayid,
+                                    'invoice_id'=>$orderId,
+                                    'cardnumber_last4_digits'=>$last4,
+                                    'cardtype'=>$card->cardtype,
+                                    'cardexpire'=>$expire,
+                                    'cardholder_name'=>$card->holdername,
+                                    'created_at'=>$created_time,
+                                    'updated_at'=>$updated_at
+                                    ]);
         
     }
 
+    private function formatDateTime($datetime){
+        $given = new DateTime($datetime, new DateTimeZone("UTC"));
+        $given->setTimezone(new DateTimeZone("Asia/Bangkok"));
+        $output = $given->format("Y-m-d H:i:s"); 
+        return new DateTime($output);
+    }
+
 }
+
 
 ?>
