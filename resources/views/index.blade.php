@@ -1,7 +1,7 @@
 @extends('layout')<!DOCTYPE html>
 
 @section('title')
-	Test Paymen
+	Test Payment
 @stop
 
 @section('header')
@@ -23,25 +23,12 @@
 <hr>
 
 <div class="container">
-		@if(isset($errors) && count($errors))
-			@foreach($errors as $error)
-				<div class="alert alert-danger fade in">
-				<a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
-  				{{ $error }}
-				</div>
-			@endforeach
-				<div class="alert alert-danger fade in">
-				<a href="/" class="close" data-dismiss="alert" aria-label="close">&times;</a>
-  				Transaction Failed. Close this to go back.
-				</div>
-
-		@endif
-		@if(!empty($success))
-				<div class="alert alert-success fade in">
-				<a href="/" class="close" data-dismiss="alert" aria-label="close">&times;</a>
-  				{{ $success }} Close this for a new transaction.
-				</div>
-		@endif
+		<div class="error">
+			
+		</div>
+		<div class="success">
+			
+		</div>
 		<form class="form-horizontal" method="post" id="Payment"  action="{{env('API_URL')}}/v1/processcreditcard" target="_top" data-parsley-validate>
 		<h4 class = "col-xs-12"> Order</h4>
 		<div class="form-group text-left">		
@@ -119,12 +106,13 @@
     		<label for="creditCardCVV" class="col-xs-2 control-label">CVV: </label>
     		<div class="col-xs-2"><input type="password" name="creditCardCVV" class="form-control" placeholder="CVV" required autocomplete="off"></div>
 		</div>
-		<div class="form-group text-left">
+
+	    </form>
+	    		<div class="form-group text-left">
 	    <div class="col-xs-offset-2 col-xs-10">
 	      <button class="btn btn-default" id="submitPayment">Pay</button>
 	    </div>
 	    </div>
-	    </form>
 
 	    
 
@@ -137,9 +125,60 @@
 		$(document).ready(function(){
 
 			$("#submitPayment").on('click', function(){
-				console.log("Submit Clicked. Submitting Form");
-				// Format input for card number entry
+
+			$(this).text("Processing");
+      		$(this).attr("disabled", true);
+				
+				$.ajax({
+					url : "{{env('API_URL')}}/v1/processcreditcard",
+					method : 'POST',
+					data : $("#Payment").serialize(),
+					dataType : 'json',
+					error : function(data , status, resp){
+						console.log('Error data: ', data);
+						console.log('Error status: ', status);
+						console.log('Error resp: ', resp);
+						var obj = $.parseJSON(data.responseText);
+						var err = obj.errors;
+						$.each(err , function(index, value){
+			      			console.log(value);
+			      			appendError(value);
+			      		});
+			     	var transaction_error = '<div class="alert alert-danger fade in">';
+			     		transaction_error+= '<a href="/" class="close" data-dismiss="alert" aria-label="close">&times;</a>';
+						transaction_error += 'Transaction Failed. Close this to start a new transaction.</div>';
+						$(transaction_error).appendTo(".container > .error");
+  				
+					},
+					success : function(data , status, resp){
+
+						var obj = $.parseJSON(resp.responseText);;
+						var successMsg = data['success'];
+						var success = '<div class="alert alert-success fade in">';
+						 	success += '<a href="/" class="close" data-dismiss="alert" aria-label="close">&times;</a>';
+							success += successMsg+'Close this for a new transaction.</div>';
+							$(success).appendTo(".container > .success");
+						//4111111111111111
+					},
+					complete : function(){
+						//$("#submitPayment").attr("disabled", false);
+						$("#submitPayment").text("Pay");
+						$("#submitPayment").attr("disabled", true);
+					},
+					timeout : 60000,
+				});
+
 			});
+
+			function enableButton(){
+
+			}
+
+			var appendError = function(value){
+			var content = '<div class="alert alert-danger fade in">';
+			content += '<a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>'+value+'</div>';
+			$(content).appendTo(".container > .error");
+			}
 		});
 	</script>
 @stop
