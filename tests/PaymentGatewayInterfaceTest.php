@@ -39,4 +39,12 @@ class PaymentGatewayInterfaceTest extends TestCase
         $channel = $gateway->gateway_name;
         return $channel;
     }
+
+    public function testgetId_for_gatewayName(){
+        $paypal = new Paypal();
+        $this->assertEquals('1',$paypal->getId());
+        $braintree = new Braintree();
+        $this->assertEquals('2',$braintree->getId());
+
+    }
 }
