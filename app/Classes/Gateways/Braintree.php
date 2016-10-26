@@ -11,6 +11,9 @@ use Braintree\Result\Successful;
 use Exception;
 use Illuminate\Http\Response;
 use Log;
+use App\Classes\Models\CreditCardResponse;
+use DateTime;
+use DateTimeZone;
 
 
 class Braintree implements Gateway {
@@ -19,8 +22,8 @@ class Braintree implements Gateway {
 		return 'Braintree';
 	}
 
-    private function getId(){
-        return PaymentGateway::getId($this->name());
+    public function getId(){
+        return PaymentGateway::getId($this->name())->id;
     }
 
 
@@ -65,11 +68,9 @@ class Braintree implements Gateway {
                
             }else
             {
-            echo "<pre>";
-            print_r($result);
-            echo "</pre>";
+  
+            $this->storeData($result->transaction, $transaction, $card);
             Log::info('Transaction success at Braintree gateway');
-            $transaction = $result->transaction;
 
             return $response->setStatusCode(200)
                                 ->setContent(['success'=>'Transaction completed using Braintree gateway.'] );
@@ -85,13 +86,42 @@ class Braintree implements Gateway {
         $status = $result->status;
         $type = $result->type;
         $gatewayid = $this->getId();
-        $orderId = $transaction->invoiceid;
-        $createdAt = $result->createdAt->date;
 
+        $orderId = $transaction->invoiceid;
+
+        $last4 = substr($card->cardnumber, -4);
+        $expire = $card->month . "/" . $card->year;   
+
+        $createdAt = $result->createdAt->date;
+        $created_time = $this->formatDateTime($createdAt);   
+
+        $updated_at = $result->updatedAt->date;
+        $updated_at = $this->formatDateTime($updated_at);
+
+        CreditCardResponse::create(['transaction_id'=>$transactionId,
+                                    'transaction_type'=>$type,
+                                    'transaction_status'=>$status,
+                                    'gateway_id'=>$gatewayid,
+                                    'invoice_id'=>$orderId,
+                                    'cardnumber_last4_digits'=>$last4,
+                                    'cardtype'=>$card->cardtype,
+                                    'cardexpire'=>$expire,
+                                    'cardholder_name'=>$card->holdername,
+                                    'created_at'=>$created_time,
+                                    'updated_at'=>$updated_at
+                                    ]);
 
 
 
     }
+
+    private function formatDateTime($datetime){
+        $given = new DateTime($datetime, new DateTimeZone("UTC"));
+        $given->setTimezone(new DateTimeZone("Asia/Bangkok"));
+        $output = $given->format("Y-m-d H:i:s"); 
+        return new DateTime($output);
+    }
+
 	
 }
 
