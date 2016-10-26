@@ -135,9 +135,7 @@
 					data : $("#Payment").serialize(),
 					dataType : 'json',
 					error : function(data , status, resp){
-						console.log('Error data: ', data);
-						console.log('Error status: ', status);
-						console.log('Error resp: ', resp);
+
 						var obj = $.parseJSON(data.responseText);
 						var err = obj.errors;
 						$.each(err , function(index, value){
