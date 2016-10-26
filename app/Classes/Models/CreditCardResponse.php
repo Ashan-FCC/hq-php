@@ -8,7 +8,7 @@ use PDOException;
 
 class CreditCardResponse extends Model {
 
-protected $table ="CreditCardResponse";
+protected $table ="CreditCardResponses";
 protected $guarded = ['id'];
 
 }
