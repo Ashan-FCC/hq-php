@@ -18,7 +18,7 @@ class CreateCreditCardResponsesTable extends Migration
             $table->string('transaction_type');
             $table->string('transaction_status');
             $table->integer('gateway_id')->unsigned()->index();
-            $table->string('invoice_id')->unsigned()->index();
+            $table->string('invoice_id');
             $table->integer('cardnumber_last4_digits');
             $table->string('cardtype');
             $table->string('cardexpire');
