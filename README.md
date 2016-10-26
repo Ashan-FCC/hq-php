@@ -1,5 +1,5 @@
 # hq-php
-Repo to test integrating with paypal
+Repo to test integrating with paypal and braintree.
 
 <h2>Prerequisites</h2>
 
@@ -11,6 +11,7 @@ Clone the project and in the project root folder, run
 
 <code>composer install </code>
 
+Create a database called PaymentIntegration using mysql.
 Edit .env file in the root directory. 
 Set the database name, user and password.
 
@@ -28,9 +29,12 @@ In the document root run the following commands.
 Create a php server with the public folder of the application as the document root. <br>
 <code> php -S localhost:8080 -t public </code> 
 
+If using a different port number,  edit the field API_URL in the .env file.
+
+
 Open a browser and go to localhost:8080 and the payment form will be available.
 
-Here are some valid credit card numbers for testing.
+Here are some valid credit card numbers for testing in Braintree gateway. Braintree gateway will be automatically chosen when using the currencies HKD, SGD and THB.
 
 <table>
 <thead>
@@ -94,3 +98,28 @@ Here are some valid credit card numbers for testing.
 </tr>
 </tbody>
 </table>
+
+<b> Valid Card Numbers for PayPal </b>
+<table>
+<thead>
+<tr>
+<th>Test Value</th>
+<th>Card Type</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code >5421135181362637</code></td>
+<td>Mastercard</td>
+</tr>
+<tr>
+<td><code >376374933304342</code></td>
+<td>American Express</td>
+</tr>
+<tr>
+<td><code >4032032531467923</code></td>
+<td>Visa</td>
+</tr>
+</tbody>
+</table>
+
