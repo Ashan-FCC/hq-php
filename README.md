@@ -34,7 +34,11 @@ If using a different port number,  edit the field API_URL in the .env file.
 
 Open a browser and go to localhost:8080 and the payment form will be available.
 
-Here are some valid credit card numbers for testing in Braintree gateway. Braintree gateway will be automatically chosen when using the currencies HKD, SGD and THB.
+Paypal gateway will be automatically chosen when using the currencies, USD, AUD and EUR. <br>
+Braintree gateway will be automatically chosen when using the currencies HKD, SGD and THB. <br>
+American Express cards can be only used with USD. <br>
+
+<b> Valid test card number for Braintree </b>
 
 <table>
 <thead>
@@ -120,6 +124,11 @@ Here are some valid credit card numbers for testing in Braintree gateway. Braint
 <td><code >4032032531467923</code></td>
 <td>Visa</td>
 </tr>
+<tr>
+<td><code >6011050555925196</code></td>
+<td>Discover</td>
+</tr>
+
 </tbody>
 </table>
 
