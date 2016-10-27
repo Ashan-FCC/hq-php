@@ -68,7 +68,7 @@ class Braintree implements Gateway {
                
             }else
             {
-  
+           // $this->prettyPrint($result);
             $this->storeData($result->transaction, $transaction, $card);
             Log::info('Transaction success at Braintree gateway');
 
@@ -80,6 +80,11 @@ class Braintree implements Gateway {
             Log::error(json_encode($ex));
         }
 	}
+    private function prettyPrint($result){
+        echo "<pre>";
+        print_r($result);
+        echo "</pre>";
+    }
 
     private function storeData($result , $transaction, $card){
         $transactionId = $result->id;
@@ -92,17 +97,18 @@ class Braintree implements Gateway {
         $last4 = substr($card->cardnumber, -4);
         $expire = $card->month . "/" . $card->year;   
 
-        $createdAt = $result->createdAt->date;
-        $created_time = $this->formatDateTime($createdAt);   
+        $createdAt = $result->createdAt;//->date;
+        $created_time = $this->formatDateTime($createdAt->format('Y-m-d H:i:s'));   
 
-        $updated_at = $result->updatedAt->date;
-        $updated_at = $this->formatDateTime($updated_at);
+        $updated_at = $result->updatedAt;//->date;
+        $updated_at = $this->formatDateTime($updated_at->format('Y-m-d H:i:s'));
 
         CreditCardResponse::create(['transaction_id'=>$transactionId,
                                     'transaction_type'=>$type,
                                     'transaction_status'=>$status,
                                     'gateway_id'=>$gatewayid,
                                     'invoice_id'=>$orderId,
+                                    'sale_id' => "-",
                                     'cardnumber_last4_digits'=>$last4,
                                     'cardtype'=>$card->cardtype,
                                     'cardexpire'=>$expire,

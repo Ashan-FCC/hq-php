@@ -94,6 +94,7 @@ class Paypal implements Gateway {
         } catch (\PayPal\Exception\PayPalConnectionException $ex) {
             $result = $ex->getData();
             $errors = $this->getErrors($result);
+            Log::info("Transaction failed at PayPal", ['errors'=>$errors]);
             return $response->setStatusCode(Response::HTTP_BAD_REQUEST, "Error at Paypal gateway")
                             ->setContent(['errors'=>$errors]);
         }
@@ -101,6 +102,7 @@ class Paypal implements Gateway {
         if(env('APP_ENV')==="local"){
 
             if(($result->state === 'approved' || $result->state === 'created') && $result->intent==='sale'){
+                //$this->prettyPrint($result);
                 $this->storeData($result,$transaction, $card);
                 Log::info("Success at PayPal");
                 return $response->setStatusCode(200)
@@ -121,12 +123,19 @@ class Paypal implements Gateway {
 
     }
 
+    private function prettyPrint($result){
+        echo "<pre>";
+        print_r($result);
+        echo "</pre>";
+    }
+
     private function storeData($result, $transaction, $card){
         $transactionId = $result->id;
         $status = $result->state;
         $type = $result->intent;
         $gatewayid = $this->getId();
         $orderId = $transaction->invoiceid;
+        $saleid = $this->getSaleId($result);
  
 
         $last4 = substr($card->cardnumber, -4);
@@ -143,6 +152,7 @@ class Paypal implements Gateway {
                                     'transaction_status'=>$status,
                                     'gateway_id'=>$gatewayid,
                                     'invoice_id'=>$orderId,
+                                    'sale_id' => $saleid,
                                     'cardnumber_last4_digits'=>$last4,
                                     'cardtype'=>$card->cardtype,
                                     'cardexpire'=>$expire,
@@ -151,6 +161,14 @@ class Paypal implements Gateway {
                                     'updated_at'=>$updated_at
                                     ]);
         
+    }
+    private function getSaleId($result){
+        $resources = $result->transactions[0]->related_resources;
+        if(count($resources)>0){
+          $saleid =  $resources[0]->sale->id;
+          $state = $resources[0]->sale->state;
+          return $saleid;
+        } return "-";
     }
 
     private function formatDateTime($datetime){
