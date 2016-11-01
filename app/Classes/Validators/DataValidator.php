@@ -27,9 +27,16 @@ class DataValidator {
 		return $this->errors;
 	}
 
-	public function validateTransaction(Transaction $tr){
-
-
+	public function validateTransaction(Transaction $tr, $customerName){
+		$err = array();
+		if($tr->amount < env('min_transaction') ) {
+			 array_push($err, 'Minimum transaction amount must be greater than '.env('min_transaction'));
+		}
+		$customerName = trim($customerName);
+		if( strlen($customerName) === 0 ) {
+			array_push($err, "Customer name cannot be empty.");
+		}
+		return $err;
 	}
 
 	// }
