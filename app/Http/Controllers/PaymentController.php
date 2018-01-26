@@ -38,7 +38,6 @@ class PaymentController extends Controller
         $year = $request->input('cardExpireYear');
         $holdername = $request->input('nameOnCard');
         $cardtype = $request->input('creditCardType');
-        $customerName = $request->input('customerName');
 
         $Currency = $request->input('currency');
         $Amount = $request->input('amount');
@@ -53,11 +52,6 @@ class PaymentController extends Controller
         $validator = new DataValidator($cardvalidator , $card);
         
         $err = $validator->validateCard();
-        if(count($err) > 0){
-            Log::error('Error validating data: ', ['Errors'=>$err]);
-            return $this->sendError($err);
-        }
-        $err = $validator->validateTransaction($transaction , $customerName);
         if(count($err) > 0){
             Log::error('Error validating data: ', ['Errors'=>$err]);
             return $this->sendError($err);
