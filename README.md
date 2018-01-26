@@ -1,8 +1,6 @@
 # hq-php
 Repo to test integrating with paypal and braintree.
 
-
-
 <h2>Prerequisites</h2>
 
 <ul>PHP 5.3 or above</ul>
